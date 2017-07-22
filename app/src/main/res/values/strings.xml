@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ToDoListChallenge</string>
+    <string name="add_new_list">Add A New To-Do List</string>
+</resources>
