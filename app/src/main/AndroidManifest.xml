@@ -3,6 +3,7 @@
     package="com.example.jake.todolistchallenge">
 
     <application
+        android:name=".application.ToDoApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,6 +20,10 @@
         <activity android:name=".view.activities.ListActivity" />
         <activity android:name=".view.activities.ItemActivity" />
         <activity android:name=".view.activities.SettingsActivity"></activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="a3696b7a8b077ba97b9b261311022d30f3f607c4" />
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
