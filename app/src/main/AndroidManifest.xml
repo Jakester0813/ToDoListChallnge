@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.jake.todolistchallenge">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".application.ToDoApplication"
         android:allowBackup="true"
@@ -19,11 +21,12 @@
         </activity>
         <activity android:name=".view.activities.ListActivity" />
         <activity android:name=".view.activities.ItemActivity" />
-        <activity android:name=".view.activities.SettingsActivity"></activity>
+        <activity android:name=".view.activities.SettingsActivity" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="a3696b7a8b077ba97b9b261311022d30f3f607c4" />
+
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>
