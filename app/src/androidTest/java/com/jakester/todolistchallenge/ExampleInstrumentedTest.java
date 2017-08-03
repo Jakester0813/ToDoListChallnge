@@ -1,4 +1,4 @@
-package com.example.jake.todolistchallenge;
+package com.jakester.todolistchallenge;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.jake.todolistchallenge", appContext.getPackageName());
+        assertEquals("com.jake.todolistchallenge", appContext.getPackageName());
     }
 }

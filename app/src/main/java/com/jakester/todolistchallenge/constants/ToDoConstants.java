@@ -1,4 +1,4 @@
-package com.example.jake.todolistchallenge.constants;
+package com.jakester.todolistchallenge.constants;
 
 /**
  * Created by Jake on 7/23/2017.

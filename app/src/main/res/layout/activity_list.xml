@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.jake.todolistchallenge.view.activities.ListActivity">
+    tools:context="com.jakester.todolistchallenge.view.activities.ListActivity">
 
 </android.support.constraint.ConstraintLayout>

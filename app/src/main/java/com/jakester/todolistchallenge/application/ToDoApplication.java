@@ -1,4 +1,4 @@
-package com.example.jake.todolistchallenge.application;
+package com.jakester.todolistchallenge.application;
 
 import android.app.Application;
 

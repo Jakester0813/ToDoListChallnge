@@ -1,9 +1,9 @@
-package com.example.jake.todolistchallenge.view.activities;
+package com.jakester.todolistchallenge.view.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.example.jake.todolistchallenge.R;
+import com.jakester.todolistchallenge.R;
 
 public class ItemActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.jake.todolistchallenge;
+package com.jakester.todolistchallenge;
 
 import org.junit.Test;
 

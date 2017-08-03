@@ -1,4 +1,4 @@
-package com.example.jake.todolistchallenge.database;
+package com.jakester.todolistchallenge.database;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
