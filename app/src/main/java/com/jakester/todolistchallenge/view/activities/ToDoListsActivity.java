@@ -3,6 +3,7 @@ package com.jakester.todolistchallenge.view.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,18 +13,22 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.jakester.todolistchallenge.R;
+import com.jakester.todolistchallenge.viewmodels.ListsViewModel;
 
 public class ToDoListsActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     RecyclerView mListsRecycler;
     LinearLayout mAddListLinear;
-
+    LinearLayoutManager mManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_lists);
+        ListsViewModel model = new ListsViewModel(this);
         mListsRecycler = (RecyclerView) findViewById(R.id.rv_lists);
+        mManager = new LinearLayoutManager(this);
+        mListsRecycler.setLayoutManager(mManager);
         mAddListLinear = (LinearLayout) findViewById(R.id.ll_add_new_list);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -35,6 +40,7 @@ public class ToDoListsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     @Override

@@ -1,12 +1,19 @@
 package com.jakester.todolistchallenge.model.objects;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.jakester.todolistchallenge.BR;
+
 import java.util.ArrayList;
 
 /**
  * Created by Jake on 8/2/2017.
  */
 
-public class UserList {
+public class UserList extends BaseObservable implements Parcelable {
     private int mIDInt;
     private String mNameString;
     private ArrayList<Item> mCurrentItems;
@@ -30,9 +37,11 @@ public class UserList {
     }
 
     public void setName(String pName){
-        this.mNameString = pName;
-    }
 
+        this.mNameString = pName;
+        notifyPropertyChanged(BR.name);
+    }
+    @Bindable
     public String getName(){
         return mNameString;
     }
@@ -61,5 +70,15 @@ public class UserList {
     public void setCompletedItems(ArrayList<Item> pItems) {
         if(this.mCompletedItems.size() > 0) this.mCompletedItems.clear();
         this.mCompletedItems.addAll(pItems);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedObject(this, flags);
     }
 }

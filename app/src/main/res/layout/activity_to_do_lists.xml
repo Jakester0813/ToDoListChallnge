@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+<android.support.constraint.ConstraintLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
-    tools:context="com.jakester.todolistchallenge.view.activities.ToDoListsActivity">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:titleTextColor="@android:color/white"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_lists"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <LinearLayout
-        android:id="@+id/ll_add_new_list"
-        android:layout_width="match_parent"
-        android:layout_height="16dp"
-        android:orientation="horizontal"
-        android:background="@android:color/white">
-
-        <ImageView
-            android:id="@+id/add_new_list_image"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:minHeight="?attr/actionBarSize"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:src="@drawable/ic_addsign"
-            android:tint="@color/newListColor"
-            />
+            app:titleTextColor="@android:color/white"
+            android:background="?attr/colorPrimary">
+        </android.support.v7.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/tv_add_new_list"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:text="@string/add_new_list"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_lists"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_add_new_list"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:orientation="horizontal"
+            android:background="@android:color/white">
 
-</android.support.constraint.ConstraintLayout>
+            <ImageView
+                android:id="@+id/add_new_list_image"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:src="@drawable/ic_addsign"
+                android:tint="@color/newListColor"
+                />
+
+            <TextView
+                android:id="@+id/tv_add_new_list"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text='@string/add_new_list'/>
+
+            </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
