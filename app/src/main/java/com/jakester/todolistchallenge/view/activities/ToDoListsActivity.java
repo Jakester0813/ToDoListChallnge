@@ -1,46 +1,72 @@
 package com.jakester.todolistchallenge.view.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import com.jakester.todolistchallenge.R;
+import com.jakester.todolistchallenge.constants.ToDoConstants;
+import com.jakester.todolistchallenge.model.objects.UserList;
+import com.jakester.todolistchallenge.view.adapters.ToDoListsAdapter;
+import com.jakester.todolistchallenge.view.listeners.RecyclerItemClickListener;
 import com.jakester.todolistchallenge.viewmodels.ListsViewModel;
 
 public class ToDoListsActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
     RecyclerView mListsRecycler;
-    LinearLayout mAddListLinear;
     LinearLayoutManager mManager;
+    ToDoListsAdapter mToDoListsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_lists);
-        ListsViewModel model = new ListsViewModel(this);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         mListsRecycler = (RecyclerView) findViewById(R.id.rv_lists);
         mManager = new LinearLayoutManager(this);
         mListsRecycler.setLayoutManager(mManager);
-        mAddListLinear = (LinearLayout) findViewById(R.id.ll_add_new_list);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        mToDoListsAdapter = new ToDoListsAdapter(this);
+        mListsRecycler.setAdapter(mToDoListsAdapter);
+        mListsRecycler.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, mListsRecycler, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        if(view.getId() == R.id.ll_add_new_list){
+                            showNewListDialog();
+                        }
+                        else {
+                            Intent listIntent = new Intent(ToDoListsActivity.this, ListActivity.class);
+                            listIntent.putExtra("UserList", mToDoListsAdapter.getList().get(position));
+                            listIntent.putExtra("Position", position);
+                            startActivityForResult(listIntent, ToDoConstants.LIST_REQUEST_CODE);
+                        }
+                    }
 
-        mAddListLinear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ToDoListsActivity.this, ListActivity.class);
-                startActivity(intent);
-            }
-        });
+                    @Override
+                    public void onLongItemClick(View view, int position) {
 
+                    }
+                })
+        );
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
     }
 
     @Override
@@ -62,8 +88,37 @@ public class ToDoListsActivity extends AppCompatActivity {
         }
     }
 
+    public void addNewListItem(String pListName){
+        mToDoListsAdapter.addNewList(new UserList(mToDoListsAdapter.getItemCount(), pListName));
+    }
+
     public void goToSettings(){
         Intent intent = new Intent(this, SettingsActivity.class);
         this.startActivity(intent);
+    }
+
+    public void showNewListDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.new_list_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+        final EditText listEdit = (EditText) dialogView.findViewById(R.id.et_new_list_name);
+
+        dialogBuilder.setTitle("Add a new list");
+        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if(listEdit.getText().length() > 0) {
+                    addNewListItem(listEdit.getText().toString());
+                }
+            }
+        });
+        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog b = dialogBuilder.create();
+        b.show();
     }
 }

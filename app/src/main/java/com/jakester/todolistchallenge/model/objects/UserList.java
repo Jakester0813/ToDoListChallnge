@@ -18,6 +18,7 @@ public class UserList extends BaseObservable implements Parcelable {
     private String mNameString;
     private ArrayList<Item> mCurrentItems;
     private ArrayList<Item> mCompletedItems;
+    private boolean mShowCompleted;
 
     //Set to initialize item by name, set other string fields to empty, and set
     //item to lowest priority (2 = low, 1 = medium, 0 = high)
@@ -26,22 +27,57 @@ public class UserList extends BaseObservable implements Parcelable {
         this.mNameString = pName;
         this.mCurrentItems = new ArrayList<Item>();
         this.mCompletedItems = new ArrayList<Item>();
+        this.mShowCompleted = false;
     }
 
     /*These setter methods are used for only modifying fields of this class, as the item is only
      *created after the user sets the name by default.
      */
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mIDInt);
+        dest.writeString(mNameString);
+        dest.writeList(mCurrentItems);
+        dest.writeList(mCompletedItems);
+        dest.writeByte((byte) (mShowCompleted ? 1 : 0));
+    }
+
+    protected UserList(Parcel in) {
+        mIDInt = in.readInt();
+        mNameString = in.readString();
+        mCurrentItems = new ArrayList<Item>();
+        mCurrentItems = in.readArrayList(Item.class.getClassLoader());
+        mCompletedItems = new ArrayList<Item>();
+        mCompletedItems = in.readArrayList(Item.class.getClassLoader());
+        mShowCompleted = in.readByte() != 0;
+
+    }
+
+
+
+    public static final Creator<UserList> CREATOR = new Creator<UserList>() {
+        @Override
+        public UserList createFromParcel(Parcel in) {
+            return new UserList(in);
+        }
+
+        @Override
+        public UserList[] newArray(int size) {
+            return new UserList[size];
+        }
+    };
+
     public int getID(){
         return mIDInt;
     }
 
-    public void setName(String pName){
-
-        this.mNameString = pName;
-        notifyPropertyChanged(BR.name);
-    }
-    @Bindable
+    public void setName(String pName){ this.mNameString = pName; }
     public String getName(){
         return mNameString;
     }
@@ -72,13 +108,11 @@ public class UserList extends BaseObservable implements Parcelable {
         this.mCompletedItems.addAll(pItems);
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
+    public boolean getShowCompleted(){
+        return mShowCompleted;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedObject(this, flags);
+    public void setShowCompleted(boolean show){
+        this.mShowCompleted = show;
     }
 }

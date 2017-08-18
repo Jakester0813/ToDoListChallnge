@@ -10,4 +10,7 @@ public class ToDoConstants {
 
     //DATABASE CONSTANTS
     public static final String DATABASE_NAME = "ToDoListDatabase";
+
+    //Request Codes
+    public static final int LIST_REQUEST_CODE = 100;
 }

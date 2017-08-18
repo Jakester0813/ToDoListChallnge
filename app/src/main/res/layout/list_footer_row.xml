@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_add_new_list"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
+    android:background="@android:color/white">
+
+        <ImageView
+            android:id="@+id/add_new_list_image"
+            android:layout_height="24dp"
+            android:layout_width="24dp"
+            android:paddingLeft="4dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_addsign"
+            android:tint="@color/newListColor"
+            />
+
+        <TextView
+            android:id="@+id/tv_add_new_list"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="14dp"
+            android:text='@string/add_new_list'/>
+
+</LinearLayout>
