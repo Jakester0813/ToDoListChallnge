@@ -121,4 +121,25 @@ public class ToDoListsActivity extends AppCompatActivity {
         AlertDialog b = dialogBuilder.create();
         b.show();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == ToDoConstants.LIST_REQUEST_CODE) {
+            // Make sure the request was successful
+            int listPos;
+            switch (resultCode){
+                case ToDoConstants.EDITED_LIST_RESULT:
+                    listPos = data.getIntExtra("listPos", -1);
+                    mToDoListsAdapter.updateList(listPos, (UserList) data.getParcelableExtra("updatedList"));
+                    break;
+                case ToDoConstants.DELETE_LIST_RESULT:
+                    listPos = data.getIntExtra("listPos", -1);
+                    mToDoListsAdapter.removeList(listPos);
+                    break;
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
+    }
 }
