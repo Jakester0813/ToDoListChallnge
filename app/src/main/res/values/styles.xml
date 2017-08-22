@@ -16,6 +16,12 @@
         <item name="drawerArrowStyle">@style/ThemeOverlay.AppCompat.Dark</item>
     </style>
 
+    <style name="ToolBarStyleItem" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/black</item>
+        <item name="drawerArrowStyle">@style/ThemeOverlay.AppCompat</item>
+    </style>
+
 
 
 </resources>

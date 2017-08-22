@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.model.objects.Item;
 

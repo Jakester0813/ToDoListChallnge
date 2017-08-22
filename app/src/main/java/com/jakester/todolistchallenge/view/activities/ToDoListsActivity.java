@@ -2,9 +2,11 @@ package com.jakester.todolistchallenge.view.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,16 +18,27 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
+import com.jakester.todolistchallenge.model.objects.ToDoColor;
 import com.jakester.todolistchallenge.model.objects.UserList;
+import com.jakester.todolistchallenge.model.objects.UserSettings;
+import com.jakester.todolistchallenge.utils.ColorUtil;
+import com.jakester.todolistchallenge.utils.ImageUtil;
+import com.jakester.todolistchallenge.utils.UtilFunctions;
 import com.jakester.todolistchallenge.view.adapters.ToDoListsAdapter;
 import com.jakester.todolistchallenge.view.listeners.RecyclerItemClickListener;
-import com.jakester.todolistchallenge.viewmodels.ListsViewModel;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class ToDoListsActivity extends AppCompatActivity {
 
     Toolbar mToolbar;
+    LinearLayout mBackgroundLinear;
     RecyclerView mListsRecycler;
     LinearLayoutManager mManager;
     ToDoListsAdapter mToDoListsAdapter;
@@ -35,6 +48,7 @@ public class ToDoListsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_to_do_lists);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        mBackgroundLinear = (LinearLayout) findViewById(R.id.ll_background);
         mListsRecycler = (RecyclerView) findViewById(R.id.rv_lists);
         mManager = new LinearLayoutManager(this);
         mListsRecycler.setLayoutManager(mManager);
@@ -61,12 +75,15 @@ public class ToDoListsActivity extends AppCompatActivity {
                     }
                 })
         );
-
+        if(ColorUtil.getInstance().getColors() == null){
+            new GetColorsFromJSONTask().execute();
+        }
     }
 
     @Override
     public void onResume(){
         super.onResume();
+        setUserUI();
     }
 
     @Override
@@ -141,5 +158,26 @@ public class ToDoListsActivity extends AppCompatActivity {
                 // Do something with the contact here (bigger example below)
             }
         }
+    }
+
+    private class GetColorsFromJSONTask extends AsyncTask<Void,Void,ArrayList<ToDoColor>> {
+        @Override
+        protected ArrayList<ToDoColor> doInBackground(Void... voids) {
+            Type listType = new TypeToken<ArrayList<ToDoColor>>(){}.getType();
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            ArrayList<ToDoColor> colors = gson.fromJson(ColorUtil.getInstance().loadJSONFromAsset(ToDoListsActivity.this), listType);
+            return colors;
+        }
+        @Override
+        protected void onPostExecute(ArrayList<ToDoColor> colors) {
+            super.onPostExecute(colors);
+            ColorUtil.getInstance().setColors(colors);
+        }
+    }
+
+    public void setUserUI() {
+        UtilFunctions.getInstance().setStatusBarColor(this);
+        mBackgroundLinear.setBackground(ImageUtil.getInstance(this).getImage());
+        mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
     }
 }

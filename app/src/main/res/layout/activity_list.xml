@@ -2,9 +2,7 @@
 <RelativeLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/white"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:backgroundTint="@android:color/holo_orange_dark"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
@@ -13,9 +11,7 @@
         android:layout_height="wrap_content"
         android:minHeight="?attr/actionBarSize"
         app:theme="@style/ToolBarStyle"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:background="@color/colorPrimary">
-
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
         <TextView
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:id="@+id/toolbar_title"
@@ -38,71 +34,73 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView
+    <LinearLayout
+        android:id="@+id/ll_background"
+        android:layout_below="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar">
-        <LinearLayout android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:background="@android:color/white"
-            android:padding="4dp"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:backgroundTint="@android:color/holo_orange_dark"
-            android:orientation="vertical">
+        android:orientation="vertical">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:padding="4dp"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ll_add_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/holo_orange_light"
-                android:orientation="horizontal"
-                android:padding="6dp">
-
-                <EditText
-                    android:id="@+id/et_new_item"
+                <LinearLayout
+                    android:id="@+id/ll_add_item"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@android:color/black"
-                    android:singleLine="true"
-                    android:imeOptions="actionDone"/>
+                    android:orientation="horizontal"
+                    android:padding="6dp">
 
-            </LinearLayout>
+                    <EditText
+                        android:id="@+id/et_new_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@android:color/black"
+                        android:singleLine="true"
+                        android:imeOptions="actionDone"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/white"
-                android:layout_marginTop="6dp"
-                android:layout_below="@id/ll_add_item"/>
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_completed_to_do_items"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="6dp"
-                android:background="@android:color/holo_orange_light"
-                android:orientation="horizontal"
-                android:padding="6dp">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:layout_marginTop="6dp"
+                    android:layout_below="@id/ll_add_item"/>
 
-                <TextView
-                    android:id="@+id/tv_completed_to_do_text"
+                <LinearLayout
+                    android:id="@+id/ll_completed_to_do_items"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"/>
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal"
+                    android:padding="6dp">
 
+                    <TextView
+                        android:id="@+id/tv_completed_to_do_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_completed_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@android:color/white"
+                    android:layout_below="@id/ll_add_item"
+                    android:visibility="gone"/>
             </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_completed_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:background="@android:color/white"
-                android:layout_below="@id/ll_add_item"
-                android:visibility="gone"/>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+    </LinearLayout>
 </RelativeLayout>

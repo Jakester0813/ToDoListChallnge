@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.model.objects.Item;
 import com.jakester.todolistchallenge.model.objects.UserList;
@@ -70,7 +69,6 @@ public class ToDoListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         mUserLists.remove(pos);
         notifyDataSetChanged();
     }
-
 
 
     @Override

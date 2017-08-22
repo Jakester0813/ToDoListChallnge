@@ -5,5 +5,10 @@
     <color name="colorAccent">#FF4081</color>
     <color name="newListColor">#0090FF</color>
     <color name="white">#FFFFFF</color>
-    <color name="transparentWhite">#AAFFFFFF</color>
+
+    <color name="transparentWhite">#44FFFFFF</color>
+    <color name="gray">#EEEEEE</color>
+    <color name="green">#008000</color>
+    <color name="yellow">#FFB500</color>
+    <color name="red">#CD0000</color>
 </resources>

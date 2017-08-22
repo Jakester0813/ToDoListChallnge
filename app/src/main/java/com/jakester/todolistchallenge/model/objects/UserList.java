@@ -1,11 +1,7 @@
 package com.jakester.todolistchallenge.model.objects;
 
-import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.jakester.todolistchallenge.BR;
 
 import java.util.ArrayList;
 
@@ -13,7 +9,7 @@ import java.util.ArrayList;
  * Created by Jake on 8/2/2017.
  */
 
-public class UserList extends BaseObservable implements Parcelable {
+public class UserList implements Parcelable {
     private int mIDInt;
     private String mNameString;
     private ArrayList<Item> mCurrentItems;
@@ -115,4 +111,6 @@ public class UserList extends BaseObservable implements Parcelable {
     public void setShowCompleted(boolean show){
         this.mShowCompleted = show;
     }
+
+
 }

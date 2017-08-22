@@ -13,8 +13,7 @@
         android:id="@+id/iv_list_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@android:color/darker_gray"
-        android:src="@drawable/ic_settings_24dp"/>
+        android:src="@drawable/ic_to_do_list_vector"/>
 
     <TextView
         android:id="@+id/tv_list_name"
