@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 
 import com.jakester.todolistchallenge.R;
-import com.jakester.todolistchallenge.model.objects.Item;
+import com.jakester.todolistchallenge.entities.Item;
 
 import java.util.ArrayList;
 

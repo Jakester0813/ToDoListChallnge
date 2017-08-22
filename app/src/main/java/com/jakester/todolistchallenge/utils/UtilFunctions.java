@@ -6,9 +6,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 
-import com.jakester.todolistchallenge.model.objects.Item;
-import com.jakester.todolistchallenge.model.objects.UserList;
-import com.jakester.todolistchallenge.model.objects.UserSettings;
+import com.jakester.todolistchallenge.entities.Item;
+import com.jakester.todolistchallenge.entities.UserList;
+import com.jakester.todolistchallenge.entities.UserSettings;
 
 import org.json.JSONArray;
 import org.json.JSONException;

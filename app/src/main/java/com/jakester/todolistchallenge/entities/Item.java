@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.model.objects;
+package com.jakester.todolistchallenge.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jakester.todolistchallenge.R;
-import com.jakester.todolistchallenge.model.objects.Item;
-import com.jakester.todolistchallenge.model.objects.UserList;
+import com.jakester.todolistchallenge.entities.Item;
+import com.jakester.todolistchallenge.entities.UserList;
 
 import java.util.ArrayList;
 

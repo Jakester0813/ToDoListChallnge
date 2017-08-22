@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
-import com.jakester.todolistchallenge.model.objects.Item;
+import com.jakester.todolistchallenge.entities.Item;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
 
 import java.util.Calendar;

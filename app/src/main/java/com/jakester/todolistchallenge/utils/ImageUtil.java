@@ -3,7 +3,7 @@ package com.jakester.todolistchallenge.utils;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import com.jakester.todolistchallenge.model.objects.UserSettings;
+import com.jakester.todolistchallenge.entities.UserSettings;
 
 
 /**

@@ -22,9 +22,9 @@ import android.widget.TextView;
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.adapters.ListAdapter;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
-import com.jakester.todolistchallenge.model.objects.Item;
-import com.jakester.todolistchallenge.model.objects.UserList;
-import com.jakester.todolistchallenge.model.objects.UserSettings;
+import com.jakester.todolistchallenge.entities.Item;
+import com.jakester.todolistchallenge.entities.UserList;
+import com.jakester.todolistchallenge.entities.UserSettings;
 import com.jakester.todolistchallenge.utils.ImageUtil;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
 

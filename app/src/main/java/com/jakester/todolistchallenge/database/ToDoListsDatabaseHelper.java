@@ -6,8 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.jakester.todolistchallenge.model.objects.Item;
-import com.jakester.todolistchallenge.model.objects.UserList;
+import com.jakester.todolistchallenge.entities.Item;
+import com.jakester.todolistchallenge.entities.UserList;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import org.json.JSONArray;

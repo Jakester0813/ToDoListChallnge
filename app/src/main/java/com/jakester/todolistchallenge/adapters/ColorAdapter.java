@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 
 import com.jakester.todolistchallenge.R;
-import com.jakester.todolistchallenge.model.objects.ToDoColor;
+import com.jakester.todolistchallenge.entities.ToDoColor;
 import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
 
 import java.util.ArrayList;

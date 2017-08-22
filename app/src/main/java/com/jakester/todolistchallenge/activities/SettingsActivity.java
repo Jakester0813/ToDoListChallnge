@@ -14,7 +14,7 @@ import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.adapters.ColorAdapter;
 import com.jakester.todolistchallenge.adapters.ImageAdapter;
 import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
-import com.jakester.todolistchallenge.model.objects.UserSettings;
+import com.jakester.todolistchallenge.entities.UserSettings;
 import com.jakester.todolistchallenge.utils.ColorUtil;
 import com.jakester.todolistchallenge.utils.ImageUtil;
 import com.jakester.todolistchallenge.utils.UtilFunctions;

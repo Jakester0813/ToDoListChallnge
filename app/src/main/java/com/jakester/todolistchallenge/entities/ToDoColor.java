@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.model.objects;
+package com.jakester.todolistchallenge.entities;
 
 /**
  * Created by Jake on 8/21/2017.

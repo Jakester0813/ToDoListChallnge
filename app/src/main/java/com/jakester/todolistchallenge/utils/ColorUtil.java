@@ -3,7 +3,7 @@ package com.jakester.todolistchallenge.utils;
 import android.content.Context;
 
 
-import com.jakester.todolistchallenge.model.objects.ToDoColor;
+import com.jakester.todolistchallenge.entities.ToDoColor;
 
 import java.io.IOException;
 import java.io.InputStream;
