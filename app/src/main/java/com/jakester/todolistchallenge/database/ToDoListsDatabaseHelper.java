@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.jakester.todolistchallenge.entities.Item;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
  * Created by Jake on 7/23/2017.
  */
 
-public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
+public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
 
     private static ToDoListsDatabaseHelper mInstance;
 
@@ -79,6 +80,16 @@ public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
         }
 
         return lists;
+    }
+
+    public int getListsCount() {
+        String countQuery = "SELECT  * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        return cursor.getCount();
     }
 
     private UserList getList(Cursor cursor) {
@@ -190,6 +201,13 @@ public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
         return userId;
     }
 
+    public void deleteList(UserList datList) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, KEY_ROW_ID + " = ?",
+                new String[] { String.valueOf(datList.getID()) });
+        db.close();
+    }
+
     private String convertListsIntoString(UserList list) throws JSONException{
         JSONObject listObject = new JSONObject();
         JSONArray currentItemsArray = new JSONArray();
@@ -236,5 +254,19 @@ public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
 
         // Prepares the cursor.
         return database.query(TABLE_NAME, TABLE_ALL_COLUMNS, null, null, null, null, null);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String CREATE_LISTS_TABLE = "CREATE TABLE" + TABLE_NAME + "(" + KEY_ROW_ID +
+                "INTEGER PRIMARY KEY," + KEY_LIST_NAME + " TEXT," + KEY_ITEMS + " TEXT" + ")";
+        db.execSQL(CREATE_LISTS_TABLE);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+
+        onCreate(db);
     }
 }

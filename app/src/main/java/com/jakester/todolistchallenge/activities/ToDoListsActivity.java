@@ -47,6 +47,7 @@ public class ToDoListsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_lists);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("Your To Do Lists");
         setSupportActionBar(mToolbar);
         mBackgroundLinear = (LinearLayout) findViewById(R.id.ll_background);
         mListsRecycler = (RecyclerView) findViewById(R.id.rv_lists);
