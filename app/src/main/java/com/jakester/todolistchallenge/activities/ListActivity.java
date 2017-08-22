@@ -153,6 +153,7 @@ public class ListActivity extends AppCompatActivity {
                 else{
                     Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);
                     itemIntent.putExtra("Item", item);
+                    itemIntent.putExtra("ListName", mUserList.getName());
                     itemIntent.putExtra("Position", position);
                     startActivityForResult(itemIntent, ToDoConstants.ITEM_REQUEST_CODE);
                 }
@@ -171,6 +172,7 @@ public class ListActivity extends AppCompatActivity {
                         else{
                             Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);
                             itemIntent.putExtra("Item", item);
+                            itemIntent.putExtra("Completed", true);
                             itemIntent.putExtra("Position", position);
                             startActivityForResult(itemIntent, ToDoConstants.ITEM_REQUEST_CODE);
                         }
@@ -198,6 +200,9 @@ public class ListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case R.id.action_settings:
+                goToSettings();
+                return true;
             case R.id.rename_item_menu:
                 renameList();
                 return true;
@@ -224,6 +229,11 @@ public class ListActivity extends AppCompatActivity {
         finish();
     }
 
+    public void goToSettings(){
+        Intent intent = new Intent(this, SettingsActivity.class);
+        this.startActivity(intent);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
@@ -242,12 +252,14 @@ public class ListActivity extends AppCompatActivity {
                             mCurrentItemsAdapter.getItems().add(listPos,item);
                         }
                         else{
-                            mCurrentItemsAdapter.getItems().set(listPos, item);
+                            mCurrentItemsAdapter.removeItem(listPos);
+                            mCurrentItemsAdapter.addItem(item);
                         }
 
                     }
                     else{
-                        mDoneItemsAdapter.getItems().set(listPos,item);
+                        mDoneItemsAdapter.removeItem(listPos);
+                        mDoneItemsAdapter.addItem(item);
                     }
 
                     break;

@@ -129,15 +129,16 @@
 
         <LinearLayout
             android:id="@+id/ll_note"
-            android:layout_width="wrap_content"
-            android:layout_height="150dp"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:gravity="top|left"
                 android:textColor="@android:color/secondary_text_dark"
                 android:text="@string/note_hint"/>
 
@@ -145,9 +146,11 @@
                 android:id="@+id/et_note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginLeft="6dp"
                 android:inputType="text|textNoSuggestions"
+                android:layout_gravity="top|left"
                 android:imeOptions="actionDone"
-                android:textSize="15dp"
                 android:lines="5"
                 android:scrollHorizontally="true"
                 android:visibility="gone"/>

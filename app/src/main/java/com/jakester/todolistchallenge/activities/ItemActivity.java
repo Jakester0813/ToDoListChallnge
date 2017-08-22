@@ -37,7 +37,9 @@ public class ItemActivity extends AppCompatActivity {
     TextView mAddedDateText, mNoteText, mDueDate, mPriorityText, mPriority, mNameText;
     EditText mNoteEdit, mNameEdit;
     Item mItem = null;
+    String mListName;
     boolean updated = true;
+    boolean mCompleted;
     int position = -1;
 
     int COLORS[] = {0x008000, 0xFFB500, 0xCD0000};
@@ -48,6 +50,8 @@ public class ItemActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         if(getIntent().hasExtra("Item")){
             mItem = getIntent().getParcelableExtra("Item");
+            mListName = getIntent().getStringExtra("ListName");
+            mCompleted = getIntent().hasExtra("Completed");
             position = getIntent().getIntExtra("Position", -1);
         }
         else{
@@ -104,6 +108,8 @@ public class ItemActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mNoteText.setVisibility(View.GONE);
                 mNoteEdit.setVisibility(View.VISIBLE);
+                if(!mNameText.getText().toString().equals(ToDoConstants.NOTE_HINT))
+                    mNoteEdit.setText(mNoteText.getText());
                 mNoteEdit.requestFocus();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.showSoftInput(mNoteEdit, InputMethodManager.SHOW_IMPLICIT);
@@ -127,37 +133,40 @@ public class ItemActivity extends AppCompatActivity {
                 return false;
             }
         });
-        mDueDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setDueDate();
-            }
-        });
-        mPriorityLinear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Resources resources = ItemActivity.this.getResources();
-                AlertDialog.Builder builder = new AlertDialog.Builder(ItemActivity.this);
-                builder.setTitle("Select the priority level for this item:");
-                final String PRIORITY_STRINGS[] = {"Low", "Medium", "High"};
-                final int[] priorityColors = {resources.getColor(R.color.green),resources.getColor(R.color.yellow),resources.getColor(R.color.red)};
-                builder.setItems(PRIORITY_STRINGS, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mPriorityText.setText("Priority: ");
-                        mPriorityText.setTextColor(Color.BLACK);
-                        mPriority.setVisibility(View.VISIBLE);
-                        mPriority.setText(PRIORITY_STRINGS[which]);
-                        mPriority.setTextColor(priorityColors[which]);
-                        setItemUpdated();
-                        mItem.setPriorityColor(priorityColors[which]);
-                        mItem.setPriority(PRIORITY_STRINGS[which]);
 
-                    }
-                });
-                builder.show();
-            }
-        });
+        if(!mCompleted) {
+            mDueDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setDueDate();
+                }
+            });
+            mPriorityLinear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Resources resources = ItemActivity.this.getResources();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ItemActivity.this);
+                    builder.setTitle("Select the priority level for this item:");
+                    final String PRIORITY_STRINGS[] = {"Low", "Medium", "High"};
+                    final int[] priorityColors = {resources.getColor(R.color.green), resources.getColor(R.color.yellow), resources.getColor(R.color.red)};
+                    builder.setItems(PRIORITY_STRINGS, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mPriorityText.setText("Priority: ");
+                            mPriorityText.setTextColor(Color.BLACK);
+                            mPriority.setVisibility(View.VISIBLE);
+                            mPriority.setText(PRIORITY_STRINGS[which]);
+                            mPriority.setTextColor(priorityColors[which]);
+                            setItemUpdated();
+                            mItem.setPriorityColor(priorityColors[which]);
+                            mItem.setPriority(PRIORITY_STRINGS[which]);
+
+                        }
+                    });
+                    builder.show();
+                }
+            });
+        }
 
 
     }
@@ -215,7 +224,7 @@ public class ItemActivity extends AppCompatActivity {
                 .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, beginTime.getTimeInMillis())
                 .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime.getTimeInMillis())
                 .putExtra(CalendarContract.Events.TITLE, mItem.getName())
-                .putExtra(CalendarContract.Events.DESCRIPTION, "Complete \'" + mItem.getName() + "\' from your favorite To-Do list app!");
+                .putExtra(CalendarContract.Events.DESCRIPTION, "Complete \'" + mItem.getName() + "\' from your \'" + mListName + "\' list");
         startActivity(intent);
     }
 

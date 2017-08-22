@@ -27,4 +27,5 @@ public class ToDoConstants {
     //Strings
     public static final String SHOW_COMPLETED = "Show Completed To Dos";
     public static final String HIDE_COMPLETED = "Hide Completed To Dos";
+    public static final String NOTE_HINT = "Click here to add a note...";
 }
