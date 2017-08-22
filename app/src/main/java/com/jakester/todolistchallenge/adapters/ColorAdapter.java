@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.view.adapters;
+package com.jakester.todolistchallenge.adapters;
 
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.model.objects.ToDoColor;
-import com.jakester.todolistchallenge.view.listeners.RecyclerItemClickListener;
+import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.view.activities;
+package com.jakester.todolistchallenge.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,13 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakester.todolistchallenge.R;
+import com.jakester.todolistchallenge.adapters.ColorAdapter;
+import com.jakester.todolistchallenge.adapters.ImageAdapter;
+import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
 import com.jakester.todolistchallenge.model.objects.UserSettings;
 import com.jakester.todolistchallenge.utils.ColorUtil;
 import com.jakester.todolistchallenge.utils.ImageUtil;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
-import com.jakester.todolistchallenge.view.adapters.ColorAdapter;
-import com.jakester.todolistchallenge.view.adapters.ImageAdapter;
-import com.jakester.todolistchallenge.view.listeners.RecyclerItemClickListener;
 
 
 public class SettingsActivity extends AppCompatActivity {

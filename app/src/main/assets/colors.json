@@ -1,0 +1,56 @@
+[
+    {
+      "name":"red",
+      "light_color": "#FD1824",
+      "base_color": "#AC0009",
+      "dark_color": "#720006"
+    },
+    {
+      "name":"orange",
+      "light_color": "#FF681B",
+      "base_color": "#ED5000",
+      "dark_color": "#BF4000"
+    },
+    {
+      "name":"yellow",
+      "light_color": "#FFF058",
+      "base_color": "#FFE800",
+      "dark_color": "#D5C200"
+    },
+    {
+      "name":"green",
+      "light_color": "#47E22D",
+      "base_color": "#138800",
+      "dark_color": "#0D5F00"
+    },
+    {
+      "name":"blue",
+      "light_color": "#396437",
+      "base_color": "#05256E",
+      "dark_color": "#03194D"
+    },
+    {
+      "name":"purple",
+      "light_color": "#5D3BCA",
+      "base_color": "#150F71",
+      "dark_color": "#15034F"
+    },
+    {
+      "name":"pink",
+      "light_color": "#ED479B",
+      "base_color": "#A30053",
+      "dark_color": "#79003E"
+    },
+    {
+      "name":"grey",
+      "light_color": "#A4A0B1",
+      "base_color": "#2C2A30",
+      "dark_color": "#19181C"
+    },
+    {
+      "name":"black",
+      "light_color": "#86809A",
+      "base_color": "#121115",
+      "dark_color": "#09080B"
+    }
+]

@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.view.adapters;
+package com.jakester.todolistchallenge.adapters;
 
 import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;

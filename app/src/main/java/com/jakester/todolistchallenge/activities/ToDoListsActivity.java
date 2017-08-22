@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.view.activities;
+package com.jakester.todolistchallenge.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,15 +22,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.jakester.todolistchallenge.R;
+import com.jakester.todolistchallenge.adapters.ToDoListsAdapter;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
+import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
 import com.jakester.todolistchallenge.model.objects.ToDoColor;
 import com.jakester.todolistchallenge.model.objects.UserList;
 import com.jakester.todolistchallenge.model.objects.UserSettings;
 import com.jakester.todolistchallenge.utils.ColorUtil;
 import com.jakester.todolistchallenge.utils.ImageUtil;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
-import com.jakester.todolistchallenge.view.adapters.ToDoListsAdapter;
-import com.jakester.todolistchallenge.view.listeners.RecyclerItemClickListener;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

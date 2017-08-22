@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.view.activities;
+package com.jakester.todolistchallenge.activities;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -22,7 +22,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.constants.ToDoConstants;

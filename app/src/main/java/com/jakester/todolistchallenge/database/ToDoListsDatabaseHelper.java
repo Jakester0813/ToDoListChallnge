@@ -117,7 +117,8 @@ public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
             item.setAddedDate(object.getString("Added Date"));
             item.setCompleted(false);
             item.setDueDate(object.getString("Date To Complete"));
-            item.setPriority(object.getInt("Priority"));
+            item.setPriority(object.getString("Priority"));
+            item.setPriorityColor(object.getInt("Priority Color"));
             currentItems.add(item);
         }
         list.setCurrentItems(currentItems);
@@ -130,7 +131,8 @@ public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
             item.setAddedDate(object.getString("Added Date"));
             item.setCompleted(true);
             item.setDueDate(object.getString("Date To Complete"));
-            item.setPriority(object.getInt("Priority"));
+            item.setPriority(object.getString("Priority"));
+            item.setPriorityColor(object.getInt("Priority Color"));
             completedItems.add(item);
         }
         list.setCompletedItems(completedItems);
@@ -204,6 +206,7 @@ public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
             itemObject.put("Added Date", item.getAddedDate());
             itemObject.put("Date To Complete", item.getDueDate());
             itemObject.put("Priority", item.getPriority());
+            itemObject.put("Priority Color", item.getPriorityColor());
             currentItemsArray.put(itemObject);
         }
 
@@ -214,6 +217,7 @@ public class ToDoListsDatabaseHelper extends SQLiteAssetHelper {
             itemObject.put("Added Date", item.getAddedDate());
             itemObject.put("Date To Complete", item.getDueDate());
             itemObject.put("Priority", item.getPriority());
+            itemObject.put("Priority Color", item.getPriorityColor());
             doneItemsArray.put(itemObject);
         }
 

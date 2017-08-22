@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.view.activities;
+package com.jakester.todolistchallenge.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,13 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakester.todolistchallenge.R;
+import com.jakester.todolistchallenge.adapters.ListAdapter;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
 import com.jakester.todolistchallenge.model.objects.Item;
 import com.jakester.todolistchallenge.model.objects.UserList;
 import com.jakester.todolistchallenge.model.objects.UserSettings;
 import com.jakester.todolistchallenge.utils.ImageUtil;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
-import com.jakester.todolistchallenge.view.adapters.ListAdapter;
 
 
 public class ListActivity extends AppCompatActivity {

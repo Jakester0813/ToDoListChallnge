@@ -1,4 +1,4 @@
-package com.jakester.todolistchallenge.view.listeners;
+package com.jakester.todolistchallenge.listeners;
 
 /**
  * Created by Jake on 6/25/2017.
