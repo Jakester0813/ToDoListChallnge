@@ -105,7 +105,14 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
         JSONArray completedArray = listObject.getJSONArray("Completed List");
         JSONObject object = null;
         Item item = null;
+        int id = -1;
         String itemName = null;
+        boolean showCompleted;
+
+        list.setID(listObject.getInt("listRowId"));
+
+        list.setShowCompleted(listObject.getBoolean("showCompleted"));
+
         for (int i = 0; i < currentArray.length(); i++){
             object = currentArray.getJSONObject(i);
             itemName = object.getString("Name");
@@ -190,8 +197,9 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
     public void deleteList(UserList datList) {
         SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
-        db.delete(TABLE_NAME, KEY_ROW_ID + " = ?",
+        int num = db.delete(TABLE_NAME, KEY_ROW_ID + " = ?",
                 new String[] { String.valueOf(datList.getID()) });
+        Log.d("Delete list", Integer.toString(num));
         db.setTransactionSuccessful();
         db.endTransaction();
     }
@@ -226,6 +234,10 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
             itemObject.put("Priority Color", item.getPriorityColor());
             doneItemsArray.put(itemObject);
         }
+
+        listObject.put("listRowId",list.getID());
+
+        listObject.put("showCompleted",list.getShowCompleted());
 
         listObject.put("Current List", currentItemsArray);
 

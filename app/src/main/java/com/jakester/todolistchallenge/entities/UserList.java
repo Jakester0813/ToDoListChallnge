@@ -75,6 +75,8 @@ public class UserList implements Parcelable {
         return mIDInt;
     }
 
+    public void setID(int id) { this.mIDInt = id; }
+
     public void setName(String pName){ this.mNameString = pName; }
     public String getName(){
         return mNameString;
