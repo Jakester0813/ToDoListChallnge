@@ -15,6 +15,7 @@ public class UserList implements Parcelable {
     private ArrayList<Item> mCurrentItems;
     private ArrayList<Item> mCompletedItems;
     private boolean mShowCompleted;
+    private boolean mUpdated;
 
     //Set to initialize item by name, set other string fields to empty, and set
     //item to lowest priority (2 = low, 1 = medium, 0 = high)
@@ -24,6 +25,7 @@ public class UserList implements Parcelable {
         this.mCurrentItems = new ArrayList<Item>();
         this.mCompletedItems = new ArrayList<Item>();
         this.mShowCompleted = false;
+        this.mUpdated = false;
     }
 
     /*These setter methods are used for only modifying fields of this class, as the item is only
@@ -112,5 +114,12 @@ public class UserList implements Parcelable {
         this.mShowCompleted = show;
     }
 
+    public boolean getUpdated(){
+        return mUpdated;
+    }
+
+    public void setUpdated(boolean updated){
+        this.mUpdated = updated;
+    }
 
 }

@@ -23,7 +23,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.adapters.ToDoListsAdapter;
+import com.jakester.todolistchallenge.application.ToDoApplication;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
+import com.jakester.todolistchallenge.database.DatabaseManager;
+import com.jakester.todolistchallenge.database.ToDoListsDatabaseHelper;
 import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
 import com.jakester.todolistchallenge.entities.ToDoColor;
 import com.jakester.todolistchallenge.entities.UserList;
@@ -42,18 +45,28 @@ public class ToDoListsActivity extends AppCompatActivity {
     RecyclerView mListsRecycler;
     LinearLayoutManager mManager;
     ToDoListsAdapter mToDoListsAdapter;
+    int rowID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_to_do_lists);
+        DatabaseManager.initializeInstance(ToDoListsDatabaseHelper.getInstance(this));
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("Your To Do Lists");
+        rowID = UtilFunctions.getInstance(this).getLastRowID();
         setSupportActionBar(mToolbar);
         mBackgroundLinear = (LinearLayout) findViewById(R.id.ll_background);
         mListsRecycler = (RecyclerView) findViewById(R.id.rv_lists);
         mManager = new LinearLayoutManager(this);
         mListsRecycler.setLayoutManager(mManager);
-        mToDoListsAdapter = new ToDoListsAdapter(this);
+        if(UtilFunctions.getInstance(this).getFirstAppLaunch()) {
+            mToDoListsAdapter = new ToDoListsAdapter(this);
+            UtilFunctions.getInstance(this).setFirstAppLaunchCommited();
+        }
+        else{
+            mToDoListsAdapter = new ToDoListsAdapter(this, DatabaseManager.getInstance().getLists());
+        }
         mListsRecycler.setAdapter(mToDoListsAdapter);
         mListsRecycler.addOnItemTouchListener(
                 new RecyclerItemClickListener(this, mListsRecycler, new RecyclerItemClickListener.OnItemClickListener() {
@@ -88,6 +101,18 @@ public class ToDoListsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onStop(){
+        super.onStop();
+        DatabaseManager.getInstance().updateLists(mToDoListsAdapter.getList());
+    }
+
+    @Override
+    protected void onDestroy() {
+        ToDoListsDatabaseHelper.getInstance(ToDoListsActivity.this).close();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
@@ -107,7 +132,12 @@ public class ToDoListsActivity extends AppCompatActivity {
     }
 
     public void addNewListItem(String pListName){
-        mToDoListsAdapter.addNewList(new UserList(mToDoListsAdapter.getItemCount(), pListName));
+        UserList list = new UserList(rowID, pListName);
+        mToDoListsAdapter.addNewList(list);
+        rowID = DatabaseManager.getInstance().addList(list);
+        rowID++;
+        UtilFunctions.getInstance(ToDoListsActivity.this).setLastRowID(rowID);
+
     }
 
     public void goToSettings(){
@@ -150,10 +180,13 @@ public class ToDoListsActivity extends AppCompatActivity {
                 case ToDoConstants.EDITED_LIST_RESULT:
                     listPos = data.getIntExtra("listPos", -1);
                     mToDoListsAdapter.updateList(listPos, (UserList) data.getParcelableExtra("updatedList"));
+                    //Account for updated names
+                    DatabaseManager.getInstance().updateList((UserList) data.getParcelableExtra("updatedList"));
                     break;
                 case ToDoConstants.DELETE_LIST_RESULT:
                     listPos = data.getIntExtra("listPos", -1);
                     mToDoListsAdapter.removeList(listPos);
+                    DatabaseManager.getInstance().deleteList((UserList) data.getParcelableExtra("updatedList"));
                     break;
 
                 // Do something with the contact here (bigger example below)
@@ -177,7 +210,7 @@ public class ToDoListsActivity extends AppCompatActivity {
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance().setStatusBarColor(this);
+        UtilFunctions.getInstance(this).setStatusBarColor(this);
         mBackgroundLinear.setBackground(ImageUtil.getInstance(this).getImage());
         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
     }

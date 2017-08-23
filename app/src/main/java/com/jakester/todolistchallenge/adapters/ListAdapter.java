@@ -54,7 +54,8 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ItemViewHolder
     }
 
     public int getPositionFromPriority(Item item){
-        if(item.getPriority().equals("High") || mItemsList.get(0).getPriority().equals("")){
+        if(item.getPriority().equals("High") || mItemsList.size() == 0 ||
+                mItemsList.get(0).getPriority().equals("")){
             return 0;
         }
         int pos = 0;

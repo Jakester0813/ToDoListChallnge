@@ -1,11 +1,14 @@
 package com.jakester.todolistchallenge.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.Window;
 import android.view.WindowManager;
 
 
+import com.jakester.todolistchallenge.constants.ToDoConstants;
 import com.jakester.todolistchallenge.entities.Item;
 import com.jakester.todolistchallenge.entities.UserList;
 import com.jakester.todolistchallenge.entities.UserSettings;
@@ -23,9 +26,14 @@ import java.util.ArrayList;
 public class UtilFunctions {
 
     private static UtilFunctions mInstance;
+    private SharedPreferences mPrefs;
 
-    public static UtilFunctions getInstance(){
-        return mInstance != null ? mInstance : new UtilFunctions();
+    public static UtilFunctions getInstance(Context pContext){
+        return mInstance != null ? mInstance : new UtilFunctions(pContext);
+    }
+
+    private UtilFunctions(Context pContext){
+        this.mPrefs = pContext.getSharedPreferences(ToDoConstants.TO_DO_PREFS, Context.MODE_PRIVATE);
     }
 
     public void setStatusBarColor(Activity activity){
@@ -34,6 +42,22 @@ public class UtilFunctions {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(Color.parseColor(color));
+    }
+
+    public void setFirstAppLaunchCommited(){
+        mPrefs.edit().putBoolean("first_launch", true).commit();
+    }
+
+    public boolean getFirstAppLaunch(){
+        return mPrefs.getBoolean("first_launch", false);
+    }
+
+    public void setLastRowID(int id){
+        mPrefs.edit().putInt("last_row_id", id).commit();
+    }
+
+    public int getLastRowID(){
+        return mPrefs.getInt("last_row_id", 0);
     }
 
     public String convertListsIntoString(UserList list) throws JSONException {

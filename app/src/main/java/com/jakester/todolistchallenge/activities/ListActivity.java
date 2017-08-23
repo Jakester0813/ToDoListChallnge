@@ -21,7 +21,10 @@ import android.widget.TextView;
 
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.adapters.ListAdapter;
+import com.jakester.todolistchallenge.application.ToDoApplication;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
+import com.jakester.todolistchallenge.database.DatabaseManager;
+import com.jakester.todolistchallenge.database.ToDoListsDatabaseHelper;
 import com.jakester.todolistchallenge.entities.Item;
 import com.jakester.todolistchallenge.entities.UserList;
 import com.jakester.todolistchallenge.entities.UserSettings;
@@ -39,19 +42,16 @@ public class ListActivity extends AppCompatActivity {
     TextView mListText, mCompletedToDoText;
     EditText mListEdit, mNewItemEdit;
     UserList mUserList;
-    boolean updated;
     int position;
-    public static final CharSequence PRIORITY_STRINGS[] = new CharSequence[] {"Low", "Medium", "High"};
-    public static final int COLORS[] = new int[] {0x008000, 0xFFB500, 0xCD0000};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+        DatabaseManager.initializeInstance(ToDoListsDatabaseHelper.getInstance(this));
         if(getIntent().hasExtra("UserList")){
             mUserList = getIntent().getParcelableExtra("UserList");
             position = getIntent().getIntExtra("Position", -1);
         }
-        updated = false;
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle("");
         mListText = (TextView) findViewById(R.id.toolbar_title);
@@ -66,7 +66,7 @@ public class ListActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(updated){
+                if(mUserList.getUpdated()){
                     Intent renamedList = new Intent();
                     renamedList.putExtra("updatedList",mUserList);
                     renamedList.putExtra("listPos", position);
@@ -88,7 +88,7 @@ public class ListActivity extends AppCompatActivity {
                     mListText.setVisibility(View.VISIBLE);
                     InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     mgr.hideSoftInputFromWindow(mListEdit.getWindowToken(), 0);
-                    updated = true;
+                    mUserList.setUpdated(true);
                     return true;
                 }
                 return false;
@@ -122,7 +122,7 @@ public class ListActivity extends AppCompatActivity {
                     }
                     InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                     mgr.hideSoftInputFromWindow(mNewItemEdit.getWindowToken(), 0);
-                    updated = true;
+                    mUserList.setUpdated(true);
                     return true;
                 }
                 return false;
@@ -190,6 +190,19 @@ public class ListActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onStop(){
+        super.onStop();
+        if(mUserList.getUpdated())
+            DatabaseManager.getInstance().updateList(mUserList);
+    }
+
+    @Override
+    protected void onDestroy() {
+        ToDoListsDatabaseHelper.getInstance(ListActivity.this).close();
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.list_menu, menu);
@@ -225,6 +238,7 @@ public class ListActivity extends AppCompatActivity {
     public void deleteList(){
         Intent deletedList = new Intent();
         deletedList.putExtra("listPos", position);
+        deletedList.putExtra("updatedList", mUserList);
         setResult(ToDoConstants.DELETE_LIST_RESULT, deletedList);
         finish();
     }
@@ -256,14 +270,14 @@ public class ListActivity extends AppCompatActivity {
                             mCurrentItemsAdapter.addItem(item);
                         }
 
+
                     }
                     else{
                         mDoneItemsAdapter.removeItem(listPos);
                         mDoneItemsAdapter.addItem(item);
                     }
-
                     break;
-                case ToDoConstants.DELETE_LIST_RESULT:
+                case ToDoConstants.DELETE_ITEM_RESULT:
                     Item datItem = data.getParcelableExtra("item");
                     listPos = data.getIntExtra("listPos", -1);
                     if(!datItem.getCompleted())
@@ -274,12 +288,13 @@ public class ListActivity extends AppCompatActivity {
                     break;
 
             }
-            updated = true;
+            DatabaseManager.getInstance().updateList(mUserList);
+            mUserList.setUpdated(true);
         }
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance().setStatusBarColor(this);
+        UtilFunctions.getInstance(this).setStatusBarColor(this);
         getWindow().setBackgroundDrawableResource(ImageUtil.getInstance(ListActivity.this).getImageInt());
         mCompletedToDosLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
         mAddItemLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));

@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jakester.todolistchallenge.R;
+import com.jakester.todolistchallenge.application.ToDoApplication;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
 import com.jakester.todolistchallenge.entities.Item;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
@@ -276,7 +277,7 @@ public class ItemActivity extends AppCompatActivity {
         Intent deletedList = new Intent();
         deletedList.putExtra("listPos", position);
         deletedList.putExtra("item", mItem);
-        setResult(ToDoConstants.DELETE_LIST_RESULT, deletedList);
+        setResult(ToDoConstants.DELETE_ITEM_RESULT, deletedList);
         finish();
     }
 
@@ -300,7 +301,7 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance().setStatusBarColor(this);
+        UtilFunctions.getInstance(this).setStatusBarColor(this);
     }
 
 }

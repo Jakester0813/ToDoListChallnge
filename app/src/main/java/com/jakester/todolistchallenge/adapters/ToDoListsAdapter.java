@@ -2,6 +2,7 @@ package com.jakester.todolistchallenge.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +30,17 @@ public class ToDoListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public ToDoListsAdapter(Context pContext){
         this.mContext = pContext;
         this.mUserLists = new ArrayList<UserList>();
+    }
+
+    public ToDoListsAdapter(Context pContext, ArrayList<UserList> lists){
+        this.mContext = pContext;
+        if(lists != null) {
+            this.mUserLists = lists;
+        }
+        else{
+            Log.d("SQL", "Yo dawg, something aint right with the SQL");
+            this.mUserLists = new ArrayList<UserList>();
+        }
     }
 
     //Adds a new created List to the list
@@ -104,7 +116,7 @@ public class ToDoListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return this.mUserLists.size() + 1;
+        return mUserLists != null ? this.mUserLists.size() + 1 : 1;
     }
 
     @Override

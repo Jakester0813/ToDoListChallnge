@@ -7,15 +7,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.jakester.todolistchallenge.database.ToDoListContract;
 import com.jakester.todolistchallenge.entities.Item;
 import com.jakester.todolistchallenge.entities.UserList;
-import com.readystatesoftware.sqliteasset.SQLiteAssetHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.jakester.todolistchallenge.database.ToDoListContract.ListEntry.*;
 
 /**
  * Created by Jake on 7/23/2017.
@@ -28,18 +30,14 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "to_do_table.db";
     private static final int DATABASE_VERSION = 1;
 
-    // Defines the table schema.
-    public static final String TABLE_NAME = "TO_DO_LISTS_TABLE";
-    public static final String KEY_ROW_ID = "KEY_ROW_ID";
-    public static final String KEY_LIST_NAME = "KEY_LIST_NAME";
-    public static final String KEY_ITEMS = "KEY_ITEMS";
+    private static final String SQL_CREATE_ENTRIES =
+            "CREATE TABLE " + TABLE_NAME + " (" +
+                    KEY_ROW_ID + " INTEGER PRIMARY KEY," +
+                    KEY_LIST_NAME + " TEXT," +
+                    KEY_ITEMS + " TEXT)";
 
-    private static final String[] TABLE_ALL_COLUMNS = {
-            TABLE_NAME,
-            KEY_ROW_ID,
-            KEY_LIST_NAME,
-            KEY_ITEMS
-    };
+    private static final String SQL_DELETE_ENTRIES =
+            "DROP TABLE IF EXISTS " + TABLE_NAME;
 
     public static synchronized ToDoListsDatabaseHelper getInstance(Context context) {
         // Use the application context, which will ensure that you
@@ -58,7 +56,6 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<UserList> getListsFromDataBase(){
         ArrayList<UserList> lists = null;
         Cursor cursor = readDatabase();
-        // Reads the database for all recipes and adds it to the list of recipes.
         try {
             if (cursor.moveToFirst()) {
                 do {
@@ -82,22 +79,11 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
         return lists;
     }
 
-    public int getListsCount() {
-        String countQuery = "SELECT  * FROM " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-        cursor.close();
-
-        // return count
-        return cursor.getCount();
-    }
-
     private UserList getList(Cursor cursor) {
-
-        int idInt = cursor.getInt(cursor.getColumnIndex(KEY_ROW_ID));
+        int idInt = cursor.getColumnIndexOrThrow(KEY_ROW_ID);
         String nameString = cursor.getString(cursor.getColumnIndex(KEY_LIST_NAME));
 
-        UserList userList = new UserList(idInt, nameString);
+        UserList userList = new UserList((int)idInt, nameString);
 
         try {
             userList = parseListItems(userList, cursor);
@@ -151,61 +137,63 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
         return list;
     }
 
-    // Insert or update a list in the database
-    // Since SQLite doesn't support "upsert" we need to fall back on an attempt to UPDATE (in case the
-    // user already exists) optionally followed by an INSERT (in case the user does not already exist).
-    // Unfortunately, there is a bug with the insertOnConflict method
-    // (https://code.google.com/p/android/issues/detail?id=13045) so we need to fall back to the more
-    // verbose option of querying for the user's primary key if we did an update.
-    public long addOrUpdateList(UserList list) {
-        // The database connection is cached so it's not expensive to call getWriteableDatabase() multiple times.
-        SQLiteDatabase db = getWritableDatabase();
-        long userId = -1;
+    public long addList(UserList list){
+        // Gets the data repository in write mode
+        long newRowId = -1;
 
+        SQLiteDatabase db = getWritableDatabase();
         db.beginTransaction();
         try {
+// Create a new map of values, where column names are the keys
             ContentValues values = new ContentValues();
+            values.put(KEY_ROW_ID, list.getID());
             values.put(KEY_LIST_NAME, list.getName());
             values.put(KEY_ITEMS, convertListsIntoString(list));
 
-            // First try to update the user in case the user already exists in the database
-            // This assumes userNames are unique
-            int rows = db.update(TABLE_NAME, values, KEY_LIST_NAME + "= ?", new String[]{list.getName()});
-
-            // Check if update succeeded
-            if (rows == 1) {
-                // Get the primary key of the user we just updated
-                String usersSelectQuery = String.format("SELECT %s FROM %s WHERE %s = ?",
-                        KEY_ROW_ID , TABLE_NAME, KEY_LIST_NAME);
-                Cursor cursor = db.rawQuery(usersSelectQuery, new String[]{String.valueOf(list.getName())});
-                try {
-                    if (cursor.moveToFirst()) {
-                        userId = cursor.getInt(0);
-                        db.setTransactionSuccessful();
-                    }
-                } finally {
-                    if (cursor != null && !cursor.isClosed()) {
-                        cursor.close();
-                    }
-                }
-            } else {
-                // this list did not already exist, so insert new list
-                userId = db.insertOrThrow(TABLE_NAME, null, values);
-                db.setTransactionSuccessful();
-            }
-        } catch (Exception e) {
-            Log.d("DB Error", "Error while trying to add or update user");
+// Insert the new row, returning the primary key value of the new row
+            newRowId = db.insertOrThrow(TABLE_NAME, null, values);
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e) {
+            Log.d("Error adding list", "See stacktrace");
+            e.printStackTrace();
         } finally {
             db.endTransaction();
         }
-        return userId;
+
+        return newRowId;
+    }
+
+    public void updateList(UserList list){
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
+        try {
+// Create a new map of values, where column names are the keys
+            ContentValues values = new ContentValues();
+            values.put(KEY_ROW_ID, list.getID());
+            values.put(KEY_LIST_NAME, list.getName());
+            values.put(KEY_ITEMS, convertListsIntoString(list));
+
+// Insert the new row, returning the primary key value of the new row
+            int rows = db.update(TABLE_NAME, values, KEY_ROW_ID + "=?", new String[] { String.valueOf(list.getID()) });
+            db.setTransactionSuccessful();
+        }
+        catch (Exception e) {
+            Log.d("Error updating list", "See stacktrace");
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
+        }
     }
 
     public void deleteList(UserList datList) {
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = getWritableDatabase();
+        db.beginTransaction();
         db.delete(TABLE_NAME, KEY_ROW_ID + " = ?",
                 new String[] { String.valueOf(datList.getID()) });
-        db.close();
+        db.setTransactionSuccessful();
+        db.endTransaction();
     }
 
     private String convertListsIntoString(UserList list) throws JSONException{
@@ -253,14 +241,14 @@ public class ToDoListsDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
 
         // Prepares the cursor.
-        return database.query(TABLE_NAME, TABLE_ALL_COLUMNS, null, null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME, null, null, null, null, null, null);
+        Log.d("Count", Integer.toString(cursor.getCount()));
+        return cursor;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LISTS_TABLE = "CREATE TABLE" + TABLE_NAME + "(" + KEY_ROW_ID +
-                "INTEGER PRIMARY KEY," + KEY_LIST_NAME + " TEXT," + KEY_ITEMS + " TEXT" + ")";
-        db.execSQL(CREATE_LISTS_TABLE);
+        db.execSQL(SQL_CREATE_ENTRIES);
     }
 
     @Override

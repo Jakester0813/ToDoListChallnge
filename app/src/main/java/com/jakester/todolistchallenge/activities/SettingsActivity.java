@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.adapters.ColorAdapter;
 import com.jakester.todolistchallenge.adapters.ImageAdapter;
+import com.jakester.todolistchallenge.application.ToDoApplication;
 import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
 import com.jakester.todolistchallenge.entities.UserSettings;
 import com.jakester.todolistchallenge.utils.ColorUtil;
@@ -57,7 +58,7 @@ public class SettingsActivity extends AppCompatActivity {
                         UserSettings.getInstance(SettingsActivity.this)
                                 .setUserColor(position, mColorAdapter.getSelectedColor(position));
                         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(SettingsActivity.this).getBaseColor()));
-                        UtilFunctions.getInstance().setStatusBarColor(SettingsActivity.this);
+                        UtilFunctions.getInstance(SettingsActivity.this).setStatusBarColor(SettingsActivity.this);
                     }
 
                     @Override
@@ -87,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 .setImageName(position, mImageAdapter.getSelectedImage(position));
                         String mName = mImageAdapter.getSelectedImage(position);
                         mBackgroundLinear.setBackground(ImageUtil.getInstance(SettingsActivity.this).getImage(mName));
-                        UtilFunctions.getInstance().setStatusBarColor(SettingsActivity.this);
+                        UtilFunctions.getInstance(SettingsActivity.this).setStatusBarColor(SettingsActivity.this);
                     }
 
                     @Override
@@ -108,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance().setStatusBarColor(this);
+        UtilFunctions.getInstance(this).setStatusBarColor(this);
         mBackgroundLinear.setBackground(ImageUtil.getInstance(this).getImage());
         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
     }
