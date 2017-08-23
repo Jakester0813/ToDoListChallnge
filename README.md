@@ -30,3 +30,12 @@ of the list right above items without priority assigned.
 
 You can change the background image and change colors to personalize your To Do List experience!
 
+
+
+
+
+## Copyright
+
+To Do Lists is based off Wunderlist app and is not associated or endorsed by company behind Wunderlist.
+
+All images used for background belong to their respective artists behind these photos unless otherwise noted.
