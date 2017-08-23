@@ -46,6 +46,7 @@ public class ToDoListsActivity extends AppCompatActivity {
     LinearLayoutManager mManager;
     ToDoListsAdapter mToDoListsAdapter;
     int rowID;
+    GetColorsFromJSONTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class ToDoListsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_to_do_lists);
         DatabaseManager.initializeInstance(ToDoListsDatabaseHelper.getInstance(this));
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("Your To Do Lists");
+        mToolbar.setTitle(ToDoConstants.YOUR_TO_DO_LISTS);
         rowID = UtilFunctions.getInstance(this).getLastRowID();
         setSupportActionBar(mToolbar);
         mBackgroundLinear = (LinearLayout) findViewById(R.id.ll_background);
@@ -77,8 +78,8 @@ public class ToDoListsActivity extends AppCompatActivity {
                         }
                         else {
                             Intent listIntent = new Intent(ToDoListsActivity.this, ListActivity.class);
-                            listIntent.putExtra("UserList", mToDoListsAdapter.getList().get(position));
-                            listIntent.putExtra("Position", position);
+                            listIntent.putExtra(ToDoConstants.USERLIST_KEY, mToDoListsAdapter.getList().get(position));
+                            listIntent.putExtra(ToDoConstants.POSITION_KEY, position);
                             startActivityForResult(listIntent, ToDoConstants.LIST_REQUEST_CODE);
                         }
                     }
@@ -89,15 +90,23 @@ public class ToDoListsActivity extends AppCompatActivity {
                     }
                 })
         );
+        task = new GetColorsFromJSONTask();
+
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        setUserUI();
         if(ColorUtil.getInstance().getColors() == null){
-            new GetColorsFromJSONTask().execute();
+            task.execute();
         }
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        setUserUI();
     }
 
     @Override
@@ -121,7 +130,6 @@ public class ToDoListsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
             case R.id.action_settings:
                 goToSettings();
@@ -134,7 +142,7 @@ public class ToDoListsActivity extends AppCompatActivity {
     public void addNewListItem(String pListName){
         UserList list = new UserList(rowID, pListName);
         mToDoListsAdapter.addNewList(list);
-        rowID = DatabaseManager.getInstance().addList(list);
+        DatabaseManager.getInstance().addList(list);
         rowID++;
         UtilFunctions.getInstance(ToDoListsActivity.this).setLastRowID(rowID);
 
@@ -153,15 +161,15 @@ public class ToDoListsActivity extends AppCompatActivity {
 
         final EditText listEdit = (EditText) dialogView.findViewById(R.id.et_new_list_name);
 
-        dialogBuilder.setTitle("Add a new list");
-        dialogBuilder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+        dialogBuilder.setTitle(ToDoConstants.NEW_LIST_TITLE);
+        dialogBuilder.setPositiveButton(ToDoConstants.DONE, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 if(listEdit.getText().length() > 0) {
                     addNewListItem(listEdit.getText().toString());
                 }
             }
         });
-        dialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        dialogBuilder.setNegativeButton(ToDoConstants.CANCEL, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 dialog.dismiss();
             }
@@ -172,24 +180,20 @@ public class ToDoListsActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
         if (requestCode == ToDoConstants.LIST_REQUEST_CODE) {
-            // Make sure the request was successful
             int listPos;
             switch (resultCode){
                 case ToDoConstants.EDITED_LIST_RESULT:
-                    listPos = data.getIntExtra("listPos", -1);
-                    mToDoListsAdapter.updateList(listPos, (UserList) data.getParcelableExtra("updatedList"));
-                    //Account for updated names
-                    DatabaseManager.getInstance().updateList((UserList) data.getParcelableExtra("updatedList"));
+                    listPos = data.getIntExtra(ToDoConstants.POSITION_KEY, -1);
+                    mToDoListsAdapter.updateList(listPos, (UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY));
+                    DatabaseManager.getInstance().updateList((UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY));
                     break;
                 case ToDoConstants.DELETE_LIST_RESULT:
-                    listPos = data.getIntExtra("listPos", -1);
+                    listPos = data.getIntExtra(ToDoConstants.POSITION_KEY, -1);
                     mToDoListsAdapter.removeList(listPos);
-                    DatabaseManager.getInstance().deleteList((UserList) data.getParcelableExtra("updatedList"));
+                    DatabaseManager.getInstance().deleteList((UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY));
                     break;
 
-                // Do something with the contact here (bigger example below)
             }
         }
     }
@@ -210,7 +214,7 @@ public class ToDoListsActivity extends AppCompatActivity {
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance(this).setStatusBarColor(this);
+        ColorUtil.getInstance().setStatusBarColor(this);
         mBackgroundLinear.setBackground(ImageUtil.getInstance(this).getImage());
         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
     }

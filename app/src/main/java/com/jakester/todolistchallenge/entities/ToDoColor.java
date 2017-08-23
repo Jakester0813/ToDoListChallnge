@@ -9,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class ToDoColor {
 
+    //POJO class for mapping color values from colors.json file
+
     @SerializedName("name")
     @Expose
     private String mName;

@@ -29,6 +29,44 @@ public class Item implements Parcelable {
         this.mPriorityColor = -1;
     }
 
+    protected Item(Parcel in){
+        mNameString = in.readString();
+        mCompletedBool = in.readByte() != 0;
+        mNoteString = in.readString();
+        mAddedDateString = in.readString();
+        mDueDateString = in.readString();
+        mPriorityString = in.readString();
+        mPriorityColor = in.readInt();
+    }
+
+    //Parcel methods for transferring Items around
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mNameString);
+        dest.writeByte((byte) (mCompletedBool ? 1 : 0));
+        dest.writeString(mNoteString);
+        dest.writeString(mAddedDateString);
+        dest.writeString(mDueDateString);
+        dest.writeString(mPriorityString);
+        dest.writeInt(mPriorityColor);
+    }
+
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 
 
     /*These setter methods are used for only modifying fields of this class, as the item is only
@@ -95,43 +133,6 @@ public class Item implements Parcelable {
         return mPriorityColor;
     }
 
-    protected Item(Parcel in){
-        mNameString = in.readString();
-        mCompletedBool = in.readByte() != 0;
-        mNoteString = in.readString();
-        mAddedDateString = in.readString();
-        mDueDateString = in.readString();
-        mPriorityString = in.readString();
-        mPriorityColor = in.readInt();
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mNameString);
-        dest.writeByte((byte) (mCompletedBool ? 1 : 0));
-        dest.writeString(mNoteString);
-        dest.writeString(mAddedDateString);
-        dest.writeString(mDueDateString);
-        dest.writeString(mPriorityString);
-        dest.writeInt(mPriorityColor);
-    }
-
-    public static final Creator<Item> CREATOR = new Creator<Item>() {
-        @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
-        }
-
-        @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
-        }
-    };
 }
 
 

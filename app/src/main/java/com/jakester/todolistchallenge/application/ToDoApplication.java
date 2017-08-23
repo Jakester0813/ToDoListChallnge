@@ -19,6 +19,7 @@ public class ToDoApplication extends Application {
         return instance != null ? instance : new ToDoApplication();
     }
 
+    //To initialize Crashlytics and Leak Canary
     @Override
     public void onCreate(){
         super.onCreate();

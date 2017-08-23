@@ -1,9 +1,14 @@
 package com.jakester.todolistchallenge.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.view.Window;
+import android.view.WindowManager;
 
 
 import com.jakester.todolistchallenge.entities.ToDoColor;
+import com.jakester.todolistchallenge.entities.UserSettings;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +22,6 @@ import java.util.HashMap;
 public class ColorUtil {
     private static ColorUtil mInstance;
     private ArrayList<ToDoColor> mColors;
-    private HashMap<String, ToDoColor> mColorsMap;
 
     public static ColorUtil getInstance(){
         if(mInstance == null){
@@ -30,6 +34,7 @@ public class ColorUtil {
         mColors = null;
     }
 
+    //Obtains the json file containing all of the colors to decorate the app
     public String loadJSONFromAsset(Context mContext) {
         String json = null;
         try {
@@ -46,19 +51,22 @@ public class ColorUtil {
         return json;
     }
 
+    //Sets colors from colors.json
     public void setColors(ArrayList<ToDoColor> pColors){
         this.mColors = pColors;
-        mColorsMap = new HashMap<String, ToDoColor>();
-        for(ToDoColor color : mColors){
-            mColorsMap.put(color.getName(), color);
-        }
     }
 
+    //Gets colors to store for Settings
     public ArrayList<ToDoColor> getColors(){
         return mColors;
     }
 
-    public ToDoColor retrieveColor(String colorName){
-        return mColorsMap.get(colorName);
+    //Sets the status bar color
+    public void setStatusBarColor(Activity activity){
+        String color = UserSettings.getInstance(activity).getDarkColor();
+        Window window = activity.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(Color.parseColor(color));
     }
 }

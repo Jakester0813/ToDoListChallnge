@@ -27,6 +27,7 @@ import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.application.ToDoApplication;
 import com.jakester.todolistchallenge.constants.ToDoConstants;
 import com.jakester.todolistchallenge.entities.Item;
+import com.jakester.todolistchallenge.utils.ColorUtil;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
 
 import java.util.Calendar;
@@ -43,7 +44,6 @@ public class ItemActivity extends AppCompatActivity {
     boolean mCompleted;
     int position = -1;
 
-    int COLORS[] = {0x008000, 0xFFB500, 0xCD0000};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +58,7 @@ public class ItemActivity extends AppCompatActivity {
         else{
             mItem = new Item("Dat Item");
         }
-        mToolbar.setTitle("");
+        mToolbar.setTitle(ToDoConstants.EMPTY_STRING);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -236,11 +236,10 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
+    public void onStart(){
+        super.onStart();
         setUserUI();
         populateFields();
-
     }
 
     @Override
@@ -301,7 +300,7 @@ public class ItemActivity extends AppCompatActivity {
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance(this).setStatusBarColor(this);
+        ColorUtil.getInstance().setStatusBarColor(this);
     }
 
 }

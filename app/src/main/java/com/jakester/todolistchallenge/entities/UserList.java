@@ -28,10 +28,7 @@ public class UserList implements Parcelable {
         this.mUpdated = false;
     }
 
-    /*These setter methods are used for only modifying fields of this class, as the item is only
-     *created after the user sets the name by default.
-     */
-
+    //Parcel methods to make itemlists transferable
     @Override
     public int describeContents() {
         return 0;
@@ -46,19 +43,6 @@ public class UserList implements Parcelable {
         dest.writeByte((byte) (mShowCompleted ? 1 : 0));
     }
 
-    protected UserList(Parcel in) {
-        mIDInt = in.readInt();
-        mNameString = in.readString();
-        mCurrentItems = new ArrayList<Item>();
-        mCurrentItems = in.readArrayList(Item.class.getClassLoader());
-        mCompletedItems = new ArrayList<Item>();
-        mCompletedItems = in.readArrayList(Item.class.getClassLoader());
-        mShowCompleted = in.readByte() != 0;
-
-    }
-
-
-
     public static final Creator<UserList> CREATOR = new Creator<UserList>() {
         @Override
         public UserList createFromParcel(Parcel in) {
@@ -70,6 +54,21 @@ public class UserList implements Parcelable {
             return new UserList[size];
         }
     };
+
+    protected UserList(Parcel in) {
+        mIDInt = in.readInt();
+        mNameString = in.readString();
+        mCurrentItems = new ArrayList<Item>();
+        mCurrentItems = in.readArrayList(Item.class.getClassLoader());
+        mCompletedItems = new ArrayList<Item>();
+        mCompletedItems = in.readArrayList(Item.class.getClassLoader());
+        mShowCompleted = in.readByte() != 0;
+
+    }
+
+    /*These setter methods are used for only modifying fields of this class, as the item is only
+     *created after the user sets the name by default.
+     */
 
     public int getID(){
         return mIDInt;
@@ -123,5 +122,7 @@ public class UserList implements Parcelable {
     public void setUpdated(boolean updated){
         this.mUpdated = updated;
     }
+
+
 
 }

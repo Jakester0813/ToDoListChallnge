@@ -14,6 +14,7 @@ import com.jakester.todolistchallenge.R;
 import com.jakester.todolistchallenge.adapters.ColorAdapter;
 import com.jakester.todolistchallenge.adapters.ImageAdapter;
 import com.jakester.todolistchallenge.application.ToDoApplication;
+import com.jakester.todolistchallenge.constants.ToDoConstants;
 import com.jakester.todolistchallenge.listeners.RecyclerItemClickListener;
 import com.jakester.todolistchallenge.entities.UserSettings;
 import com.jakester.todolistchallenge.utils.ColorUtil;
@@ -36,7 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("Settings");
+        mToolbar.setTitle(ToDoConstants.SETTINGS);
         setSupportActionBar(mToolbar);
         mBackgroundLinear = (LinearLayout) findViewById(R.id.ll_background);
         mColorText = (TextView) findViewById(R.id.tv_colors_text);
@@ -58,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
                         UserSettings.getInstance(SettingsActivity.this)
                                 .setUserColor(position, mColorAdapter.getSelectedColor(position));
                         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(SettingsActivity.this).getBaseColor()));
-                        UtilFunctions.getInstance(SettingsActivity.this).setStatusBarColor(SettingsActivity.this);
+                        ColorUtil.getInstance().setStatusBarColor(SettingsActivity.this);
                     }
 
                     @Override
@@ -88,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
                                 .setImageName(position, mImageAdapter.getSelectedImage(position));
                         String mName = mImageAdapter.getSelectedImage(position);
                         mBackgroundLinear.setBackground(ImageUtil.getInstance(SettingsActivity.this).getImage(mName));
-                        UtilFunctions.getInstance(SettingsActivity.this).setStatusBarColor(SettingsActivity.this);
+                        ColorUtil.getInstance().setStatusBarColor(SettingsActivity.this);
                     }
 
                     @Override
@@ -102,14 +103,13 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-
+    public void onStart(){
+        super.onStart();
         setUserUI();
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance(this).setStatusBarColor(this);
+        ColorUtil.getInstance().setStatusBarColor(this);
         mBackgroundLinear.setBackground(ImageUtil.getInstance(this).getImage());
         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
     }

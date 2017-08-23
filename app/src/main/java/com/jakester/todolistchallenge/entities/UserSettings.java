@@ -15,16 +15,14 @@ public class UserSettings {
 
     private String mImageName, mLightColor, mBaseColor, mDarkColor;
     private int colorPosition, imagePosition;
-    private ToDoColor mColor;
     private SharedPreferences mPrefs;
-    private Context mContext;
 
     public static UserSettings getInstance(Context pContext){
         return mInstance != null ? mInstance : new UserSettings(pContext);
     }
 
+    //Creates an object with the settings from Settings Screen to decorate the app
     public UserSettings(Context pContext){
-        this.mContext = pContext;
         this.mPrefs = pContext.getSharedPreferences(ToDoConstants.TO_DO_PREFS, Context.MODE_PRIVATE);
         this.mImageName = mPrefs.getString("image_name","beach");
         //gets the default colors to apply to the app right away if the user-selected colors
@@ -36,8 +34,8 @@ public class UserSettings {
         this.imagePosition = mPrefs.getInt("image_position",0);
     }
 
+    //Sets the user-selected color from Settings
     public void setUserColor(int position, ToDoColor pDatColor){
-        this.mColor = pDatColor;
         this.mLightColor = pDatColor.getLightColor();
         this.mBaseColor = pDatColor.getBaseColor();
         this.mDarkColor = pDatColor.getDarkColor();
@@ -48,20 +46,25 @@ public class UserSettings {
         mPrefs.edit().putInt("color_position", position).commit();
     }
 
+    //This gets called for List Activity for coloring the background of new item field and "Show
+    //Completed Items" UI
     public String getLightColor(){
         return mLightColor;
     }
 
+    //This gets called for setting Toolbar color
     public String getBaseColor(){
         return mBaseColor;
     }
 
+    //This gets called for setting Status Bar color
     public String getDarkColor(){
         return mDarkColor;
     }
 
     public int getColorPosition() {return colorPosition;}
 
+    //Saves Background image specified by player for future selection
     public void setImageName(int position, String image){
         this.mImageName = image;
         this.imagePosition = position;

@@ -18,18 +18,13 @@ public class ImageUtil {
         this.mContext = pContext;
     }
 
+    //Made this a singleton to make it a single instance shared across the app
     public static ImageUtil getInstance(Context pContext){
         return mInstance != null ? mInstance : new ImageUtil(pContext);
     }
 
 
-    public Drawable getImage(){
-        String imageName = UserSettings.getInstance(mContext).getImageName();
-        Drawable drawable = mContext.getResources().getDrawable(mContext.getResources()
-                .getIdentifier(imageName, "drawable", mContext.getPackageName()));
 
-        return drawable;
-    }
 
     public Drawable getImage(String mImageName){
         Drawable drawable = mContext.getResources().getDrawable(mContext.getResources()
@@ -38,10 +33,19 @@ public class ImageUtil {
         return drawable;
     }
 
+    //Used when passing imageName is not possible
+    public Drawable getImage(){
+        String imageName = UserSettings.getInstance(mContext).getImageName();
+        Drawable drawable = mContext.getResources().getDrawable(mContext.getResources()
+                .getIdentifier(imageName, "drawable", mContext.getPackageName()));
+
+        return drawable;
+    }
+
+    //Used to make the background image static and not resized by keyboard image
     public int getImageInt(){
         String imageName = UserSettings.getInstance(mContext).getImageName();
         int resource = mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
-
         return resource;
     }
 }

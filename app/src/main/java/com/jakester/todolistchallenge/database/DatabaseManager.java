@@ -12,28 +12,26 @@ import java.util.ArrayList;
  */
 
 public class DatabaseManager {
+    /* This class is meant to be the connection between the app and the database helper
+     * to help manage calls to update, delete, or add lists to the database
+     */
 
-    private static DatabaseManager instance;
+    private static DatabaseManager mInstance;
     private static ToDoListsDatabaseHelper mDatabaseHelper;
 
     public static synchronized void initializeInstance(ToDoListsDatabaseHelper helper) {
-        if (instance == null) {
-            instance = new DatabaseManager();
+        if (mInstance == null) {
+            mInstance = new DatabaseManager();
             mDatabaseHelper = helper;
         }
     }
 
     public static synchronized DatabaseManager getInstance() {
-        if (instance == null) {
+        if (mInstance == null) {
             throw new IllegalStateException(DatabaseManager.class.getSimpleName() +
                     " is not initialized, call initialize(..) method first.");
         }
-
-        return instance;
-    }
-
-    public SQLiteDatabase getDatabase() {
-        return mDatabaseHelper.getWritableDatabase();
+        return mInstance;
     }
 
     public ArrayList<UserList> getLists(){

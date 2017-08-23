@@ -28,6 +28,7 @@ import com.jakester.todolistchallenge.database.ToDoListsDatabaseHelper;
 import com.jakester.todolistchallenge.entities.Item;
 import com.jakester.todolistchallenge.entities.UserList;
 import com.jakester.todolistchallenge.entities.UserSettings;
+import com.jakester.todolistchallenge.utils.ColorUtil;
 import com.jakester.todolistchallenge.utils.ImageUtil;
 import com.jakester.todolistchallenge.utils.UtilFunctions;
 
@@ -53,7 +54,7 @@ public class ListActivity extends AppCompatActivity {
             position = getIntent().getIntExtra("Position", -1);
         }
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("");
+        mToolbar.setTitle(ToDoConstants.EMPTY_STRING);
         mListText = (TextView) findViewById(R.id.toolbar_title);
         mListEdit = (EditText) findViewById(R.id.et_list_name);
         mListText.setText(mUserList.getName());
@@ -68,8 +69,8 @@ public class ListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(mUserList.getUpdated()){
                     Intent renamedList = new Intent();
-                    renamedList.putExtra("updatedList",mUserList);
-                    renamedList.putExtra("listPos", position);
+                    renamedList.putExtra(ToDoConstants.UPDATED_LIST_KEY,mUserList);
+                    renamedList.putExtra(ToDoConstants.POSITION_KEY, position);
                     setResult(ToDoConstants.EDITED_LIST_RESULT, renamedList);
                     finish();
                 }
@@ -154,7 +155,7 @@ public class ListActivity extends AppCompatActivity {
                     Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);
                     itemIntent.putExtra("Item", item);
                     itemIntent.putExtra("ListName", mUserList.getName());
-                    itemIntent.putExtra("Position", position);
+                    itemIntent.putExtra(ToDoConstants.POSITION_KEY, position);
                     startActivityForResult(itemIntent, ToDoConstants.ITEM_REQUEST_CODE);
                 }
             }
@@ -173,7 +174,7 @@ public class ListActivity extends AppCompatActivity {
                             Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);
                             itemIntent.putExtra("Item", item);
                             itemIntent.putExtra("Completed", true);
-                            itemIntent.putExtra("Position", position);
+                            itemIntent.putExtra(ToDoConstants.POSITION_KEY, position);
                             startActivityForResult(itemIntent, ToDoConstants.ITEM_REQUEST_CODE);
                         }
                     }
@@ -184,8 +185,8 @@ public class ListActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
+    public void onStart(){
+        super.onStart();
         setUserUI();
     }
 
@@ -237,8 +238,8 @@ public class ListActivity extends AppCompatActivity {
 
     public void deleteList(){
         Intent deletedList = new Intent();
-        deletedList.putExtra("listPos", position);
-        deletedList.putExtra("updatedList", mUserList);
+        deletedList.putExtra(ToDoConstants.POSITION_KEY, position);
+        deletedList.putExtra(ToDoConstants.UPDATED_LIST_KEY, mUserList);
         setResult(ToDoConstants.DELETE_LIST_RESULT, deletedList);
         finish();
     }
@@ -294,7 +295,7 @@ public class ListActivity extends AppCompatActivity {
     }
 
     public void setUserUI() {
-        UtilFunctions.getInstance(this).setStatusBarColor(this);
+        ColorUtil.getInstance().setStatusBarColor(this);
         getWindow().setBackgroundDrawableResource(ImageUtil.getInstance(ListActivity.this).getImageInt());
         mCompletedToDosLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
         mAddItemLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
