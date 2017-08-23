@@ -18,7 +18,7 @@ You can keep track of all of your lists here.
 You can add items to your list. You can even view your completed items (if you wish) and you can 
 re-add your completed items.
 
-[Item Details](http://imgur.com/S1UrCnE)
+[Item Details](http://i.imgur.com/S1UrCnE.png)
 
 You can view the details of each of these items and edit details as you see fit. You can assign 
 priority to the item, and the list will rearrange items according to assigned priority. High 
