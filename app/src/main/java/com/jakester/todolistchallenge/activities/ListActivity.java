@@ -73,6 +73,7 @@ public class ListActivity extends AppCompatActivity {
                     renamedList.putExtra(ToDoConstants.UPDATED_LIST_KEY,mUserList);
                     renamedList.putExtra(ToDoConstants.POSITION_KEY, position);
                     setResult(ToDoConstants.EDITED_LIST_RESULT, renamedList);
+                    mUserList.setUpdated(false);
                     finish();
                 }
                 else {
@@ -97,8 +98,6 @@ public class ListActivity extends AppCompatActivity {
             }
         });
         mCompletedToDoText = (TextView) findViewById(R.id.tv_completed_to_do_text);
-        mCompletedToDoText.setText(mUserList.getShowCompleted() ?
-                ToDoConstants.HIDE_COMPLETED : ToDoConstants.SHOW_COMPLETED);
         mCompletedToDosLinear = (LinearLayout) findViewById(R.id.ll_completed_to_do_items);
         mCompletedToDosLinear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,6 +106,7 @@ public class ListActivity extends AppCompatActivity {
                         ToDoConstants.SHOW_COMPLETED : ToDoConstants.HIDE_COMPLETED);
                 mDoneItemsRecycler.setVisibility(mUserList.getShowCompleted() ? View.GONE : View.VISIBLE);
                 mUserList.setShowCompleted(mUserList.getShowCompleted() ? false : true);
+                mUserList.setUpdated(true);
             }
         });
 
@@ -151,6 +151,7 @@ public class ListActivity extends AppCompatActivity {
                     item.setCompleted(true);
                     mCurrentItemsAdapter.removeItem(position);
                     mDoneItemsAdapter.addItem(item);
+                    mUserList.setUpdated(true);
                 }
                 else{
                     Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);
@@ -170,6 +171,7 @@ public class ListActivity extends AppCompatActivity {
                             item.setCompleted(false);
                             mDoneItemsAdapter.removeItem(position);
                             mCurrentItemsAdapter.addItem(item);
+                            mUserList.setUpdated(true);
                         }
                         else{
                             Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);

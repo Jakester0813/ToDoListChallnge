@@ -141,7 +141,7 @@ public class ToDoListsActivity extends AppCompatActivity {
 
     public void addNewListItem(String pListName){
         UserList list = new UserList(rowID, pListName);
-        mToDoListsAdapter.addNewList(list);
+        mToDoListsAdapter.addList(list);
         DatabaseManager.getInstance().addList(list);
         rowID++;
         UtilFunctions.getInstance(ToDoListsActivity.this).setLastRowID(rowID);
@@ -184,8 +184,10 @@ public class ToDoListsActivity extends AppCompatActivity {
             int listPos;
             switch (resultCode){
                 case ToDoConstants.EDITED_LIST_RESULT:
+                    UserList list = (UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY);
                     listPos = data.getIntExtra(ToDoConstants.POSITION_KEY, -1);
-                    mToDoListsAdapter.updateList(listPos, (UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY));
+                    mToDoListsAdapter.removeList(listPos);
+                    mToDoListsAdapter.addList(list);
                     DatabaseManager.getInstance().updateList((UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY));
                     break;
                 case ToDoConstants.DELETE_LIST_RESULT:

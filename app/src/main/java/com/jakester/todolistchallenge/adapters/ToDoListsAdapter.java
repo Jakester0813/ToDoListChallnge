@@ -43,7 +43,7 @@ public class ToDoListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     //Adds a new created List to the list
-    public void addNewList(UserList pList){
+    public void addList(UserList pList){
         mUserLists.add(pList);
         notifyDataSetChanged();
     }
