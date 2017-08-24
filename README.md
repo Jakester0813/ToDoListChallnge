@@ -6,7 +6,7 @@ can also add multiple lists, as well as editing the lists and deleting the lists
 
 Submitted by: **Jake Rushing**
 
-Time spent: **30+** hours spent in total
+Time spent: **35+** hours spent in total
 
 
 The following **required** functionality is completed**:
