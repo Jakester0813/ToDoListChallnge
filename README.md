@@ -36,7 +36,7 @@ The following **additional** features are implemented:
       above items that are not priority-assigned.
 
 **Sidenote all of these boxes for required, optional, and additional features were supposed to be 
-  marked done, I am not sure why they are not showing up in Readme document. Also to add clarification**
+  marked done, I am not sure why they are not showing up in Readme document. EDIT: Never mind they show up on Github.**
 
 
 
