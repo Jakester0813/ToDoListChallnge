@@ -38,7 +38,6 @@ public class ToDoListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             this.mUserLists = lists;
         }
         else{
-            Log.d("SQL", "Yo dawg, something aint right with the SQL");
             this.mUserLists = new ArrayList<UserList>();
         }
     }

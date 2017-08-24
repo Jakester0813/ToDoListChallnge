@@ -49,11 +49,11 @@ public class ItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(getIntent().hasExtra("Item")){
-            mItem = getIntent().getParcelableExtra("Item");
-            mListName = getIntent().getStringExtra("ListName");
-            mCompleted = getIntent().hasExtra("Completed");
-            position = getIntent().getIntExtra("Position", -1);
+        if(getIntent().hasExtra(ToDoConstants.ITEM_KEY)){
+            mItem = getIntent().getParcelableExtra(ToDoConstants.ITEM_KEY);
+            mListName = getIntent().getStringExtra(ToDoConstants.LIST_NAME_KEY);
+            mCompleted = getIntent().hasExtra(ToDoConstants.COMPLETED_KEY);
+            position = getIntent().getIntExtra(ToDoConstants.POSITION_KEY, -1);
         }
         else{
             mItem = new Item("Dat Item");
@@ -67,8 +67,8 @@ public class ItemActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(updated){
                     Intent renamedItem = new Intent();
-                    renamedItem.putExtra("item",mItem);
-                    renamedItem.putExtra("listPos", position);
+                    renamedItem.putExtra(ToDoConstants.ITEM_KEY,mItem);
+                    renamedItem.putExtra(ToDoConstants.POSITION_KEY, position);
                     setResult(ToDoConstants.EDITED_ITEM_RESULT, renamedItem);
                     finish();
                 }
@@ -274,8 +274,8 @@ public class ItemActivity extends AppCompatActivity {
 
     public void deleteItem(){
         Intent deletedList = new Intent();
-        deletedList.putExtra("listPos", position);
-        deletedList.putExtra("item", mItem);
+        deletedList.putExtra(ToDoConstants.POSITION_KEY, position);
+        deletedList.putExtra(ToDoConstants.ITEM_KEY, mItem);
         setResult(ToDoConstants.DELETE_ITEM_RESULT, deletedList);
         finish();
     }

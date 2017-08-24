@@ -49,9 +49,9 @@ public class ListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
         DatabaseManager.initializeInstance(ToDoListsDatabaseHelper.getInstance(this));
-        if(getIntent().hasExtra("UserList")){
-            mUserList = getIntent().getParcelableExtra("UserList");
-            position = getIntent().getIntExtra("Position", -1);
+        if(getIntent().hasExtra(ToDoConstants.USERLIST_KEY)){
+            mUserList = getIntent().getParcelableExtra(ToDoConstants.USERLIST_KEY);
+            position = getIntent().getIntExtra(ToDoConstants.POSITION_KEY, -1);
         }
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(ToDoConstants.EMPTY_STRING);
@@ -153,8 +153,8 @@ public class ListActivity extends AppCompatActivity {
                 }
                 else{
                     Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);
-                    itemIntent.putExtra("Item", item);
-                    itemIntent.putExtra("ListName", mUserList.getName());
+                    itemIntent.putExtra(ToDoConstants.ITEM_KEY, item);
+                    itemIntent.putExtra(ToDoConstants.LIST_NAME_KEY, mUserList.getName());
                     itemIntent.putExtra(ToDoConstants.POSITION_KEY, position);
                     startActivityForResult(itemIntent, ToDoConstants.ITEM_REQUEST_CODE);
                 }
@@ -172,8 +172,8 @@ public class ListActivity extends AppCompatActivity {
                         }
                         else{
                             Intent itemIntent = new Intent (ListActivity.this, ItemActivity.class);
-                            itemIntent.putExtra("Item", item);
-                            itemIntent.putExtra("Completed", true);
+                            itemIntent.putExtra(ToDoConstants.ITEM_KEY, item);
+                            itemIntent.putExtra(ToDoConstants.COMPLETED_KEY, true);
                             itemIntent.putExtra(ToDoConstants.POSITION_KEY, position);
                             startActivityForResult(itemIntent, ToDoConstants.ITEM_REQUEST_CODE);
                         }
@@ -181,13 +181,13 @@ public class ListActivity extends AppCompatActivity {
                 });
         mCurrentItemsRecycler.setAdapter(mCurrentItemsAdapter);
         mDoneItemsRecycler.setAdapter(mDoneItemsAdapter);
-
     }
 
     @Override
     public void onStart(){
         super.onStart();
         setUserUI();
+        showCompletedList();
     }
 
     @Override
@@ -257,8 +257,8 @@ public class ListActivity extends AppCompatActivity {
             int listPos;
             switch (resultCode){
                 case ToDoConstants.EDITED_ITEM_RESULT:
-                    listPos = data.getIntExtra("listPos", -1);
-                    Item item = data.getParcelableExtra("item");
+                    listPos = data.getIntExtra(ToDoConstants.POSITION_KEY, -1);
+                    Item item = data.getParcelableExtra(ToDoConstants.ITEM_KEY);
                     if(!item.getCompleted()) {
 
                         if (!item.getPriority().equals(mCurrentItemsAdapter.getItems().get(listPos).getPriority())) {
@@ -279,8 +279,8 @@ public class ListActivity extends AppCompatActivity {
                     }
                     break;
                 case ToDoConstants.DELETE_ITEM_RESULT:
-                    Item datItem = data.getParcelableExtra("item");
-                    listPos = data.getIntExtra("listPos", -1);
+                    Item datItem = data.getParcelableExtra(ToDoConstants.ITEM_KEY);
+                    listPos = data.getIntExtra(ToDoConstants.POSITION_KEY, -1);
                     if(!datItem.getCompleted())
                         mCurrentItemsAdapter.removeItem(listPos);
                     else{
@@ -300,5 +300,11 @@ public class ListActivity extends AppCompatActivity {
         mCompletedToDosLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
         mAddItemLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
+    }
+
+    public void showCompletedList(){
+        mCompletedToDoText.setText(mUserList.getShowCompleted() ?
+                ToDoConstants.HIDE_COMPLETED : ToDoConstants.SHOW_COMPLETED);
+        mDoneItemsRecycler.setVisibility(mUserList.getShowCompleted() ? View.VISIBLE : View.GONE);
     }
 }

@@ -27,6 +27,9 @@ public class ToDoConstants {
     public static final String USERLIST_KEY = "userlist";
     public static final String POSITION_KEY = "position";
     public static final String UPDATED_LIST_KEY = "updatedlist";
+    public static final String ITEM_KEY = "item";
+    public static final String LIST_NAME_KEY = "listname";
+    public static final String COMPLETED_KEY = "completed";
 
     //Dialog Strings
     public static final String NEW_LIST_TITLE = "Add a new list";

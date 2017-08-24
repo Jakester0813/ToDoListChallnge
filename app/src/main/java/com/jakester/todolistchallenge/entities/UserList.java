@@ -112,6 +112,7 @@ public class UserList implements Parcelable {
     }
 
     public void setShowCompleted(boolean show){
+
         this.mShowCompleted = show;
     }
 
