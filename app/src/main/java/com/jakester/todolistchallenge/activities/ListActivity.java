@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -296,6 +297,7 @@ public class ListActivity extends AppCompatActivity {
 
     public void setUserUI() {
         ColorUtil.getInstance().setStatusBarColor(this);
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         getWindow().setBackgroundDrawableResource(ImageUtil.getInstance(ListActivity.this).getImageInt());
         mCompletedToDosLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
         mAddItemLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
