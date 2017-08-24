@@ -1,41 +1,81 @@
-**To Do Lists Overview**
+**Your To Do Lists**
 
-A To Do List app to end all To Do List apps!
+**Your To Do Lists** is an android app that allows building a todo list and basic todo items management 
+functionality including adding new items, editing and deleting an existing item. You
+can also add multiple lists, as well as editing the lists and deleting the lists.
 
-This app was created for consideration for Android Developer Boot Camp.
+Submitted by: **Jake Rushing**
 
-To Do Lists is an app that can keep track of your multiple to do lists, so if you need to have an 
-app that can help you keep your grocery list, chore list, and other lists, this is the app
-for you! 
-
-
-[Your Lists](http://i.imgur.com/7qPvh4E.png)
-
-You can keep track of all of your lists here.
-
-[Chores List](http://i.imgur.com/SAkAmuF.png)
-
-You can add items to your list. You can even view your completed items (if you wish) and you can 
-re-add your completed items.
-
-[Item Details](http://i.imgur.com/S1UrCnE.png)
-
-You can view the details of each of these items and edit details as you see fit. You can assign 
-priority to the item, and the list will rearrange items according to assigned priority. High 
-priority items and first priority marked items will move the top of the list. Medium items move 
-to the middle of items assigned priority. Low priority items will get arranged to near the bottom
-of the list right above items without priority assigned.
-
-[Settings](http://i.imgur.com/QgEQlWq.png)
-
-You can change the background image and change colors to personalize your To Do List experience!
+Time spent: **30+** hours spent in total
 
 
+The following **required** functionality is completed**:
+
+* [x] User can **successfully add and remove items** from the todo list
+* [x] User can **tap a todo item in the list and bring up an edit screen for the todo item** and then have any changes to the text reflected in the todo list.
+* [x] User can **persist todo items** and retrieve them properly on app restart
+
+The following **optional** features are implemented:
+
+* [X] Persist the todo items [into SQLite](http://guides.codepath.com/android/Persisting-Data-to-the-Device#sqlite) instead of a text file
+* [X] Improve style of the todo items in the list [using a custom adapter](http://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView)
+* [X] Add support for completion due dates for todo items (and display within listview item)
+* [X] Use a [DialogFragment](http://guides.codepath.com/android/Using-DialogFragment) instead of new Activity for editing items
+* [X] Add support for selecting the priority of each todo item (and display in listview item)
+* [X] Tweak the style improving the UI / UX, play with colors, images or backgrounds
+
+The following **additional** features are implemented:
+
+* [x] Added the ability to **add multiple To Do Lists**
+* [x] Added the ability **Edit your To Do Lists one at a time** as well as **deleting the to do list**
+* [x] Added the functionality of **adding the Item to your Google Calendar** after setting the completion date for the item. 
+* [x] Added functionality of the To Do List to rearrange items **after adding priority to the item 
+      according to priority.** High priority items (or first added priority items that aren't high) 
+      get added on top. Medium priority items get added above Low priority, and below High priority 
+      (if any high priority items exist), and Low priority items get added below Medium items, and 
+      above items that are not priority-assigned.
+
+**Sidenote all of these boxes for required, optional, and additional features were supposed to be 
+  marked done, I am not sure why they are not showing up in Readme document. Also to add clarification**
 
 
 
-## Copyright
+## Video Walkthrough
 
-To Do Lists is based off Wunderlist app and is not associated or endorsed by company behind Wunderlist.
+Here's a walkthrough of implemented user stories:
 
-All images used for background belong to their respective artists behind these photos unless otherwise noted.
+<img src='http://i.imgur.com/ADCye2C.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+
+GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+## Project Analysis
+
+As part of your pre-work submission, please reflect on the app and answer the following questions below:
+
+**Question 1:** "What are your reactions to the Android app development platform so far? Compare and contrast Android's approach to layouts and user interfaces in past platforms you've used."
+
+**Answer:** Android Development has always been my bread and butter, so I have nothing to contrast too in terms of development for previous platforms.
+
+**Question 2:** "Take a moment to reflect on the `ArrayAdapter` used in your pre-work. How would you describe an adapter in this context and what is its function in Android? Why do you think the adapter is important? Explain the purpose of the `convertView` in the `getView` method of the `ArrayAdapter`."
+
+**Answer:** I wasn't aware that ArrayAdapter is required for the app, I just used RecyclerView for the app. But from what I remember, ArrayAdapters help display items that are set in the ListView after being passed in ArrayAdapter. ConvertView is used to reuse old views that were already passed in.
+
+## Notes
+
+I had never done SQLite before I worked on this app (as I have always wanted to learn more about SQLite implementation), so learning more about implementing SQL was really hard. I also was very nitpicky about saving data so debugging when the lists weren't updated when they were supposed to was a big pain to debug, but I am glad that things work like they should. Last but not least, I never had to implement RecyclerViews with the layout manager set to horizontal (as shown in settings) so learning how to make it work was a ton of fun.
+
+## License
+
+    Copyright [2017] [Apache]
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
