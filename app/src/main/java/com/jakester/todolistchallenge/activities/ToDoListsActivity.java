@@ -183,11 +183,6 @@ public class ToDoListsActivity extends AppCompatActivity {
         if (requestCode == ToDoConstants.LIST_REQUEST_CODE) {
             int listPos;
             switch (resultCode){
-                case ToDoConstants.EDITED_LIST_RESULT:
-                    listPos = data.getIntExtra(ToDoConstants.POSITION_KEY, -1);
-                    mToDoListsAdapter.updateList(listPos, (UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY));
-                    DatabaseManager.getInstance().updateList((UserList) data.getParcelableExtra(ToDoConstants.UPDATED_LIST_KEY));
-                    break;
                 case ToDoConstants.DELETE_LIST_RESULT:
                     listPos = data.getIntExtra(ToDoConstants.POSITION_KEY, -1);
                     mToDoListsAdapter.removeList(listPos);

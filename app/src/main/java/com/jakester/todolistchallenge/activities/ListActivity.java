@@ -298,6 +298,7 @@ public class ListActivity extends AppCompatActivity {
     public void setUserUI() {
         ColorUtil.getInstance().setStatusBarColor(this);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        mBackgroundLinear.requestFocus();
         getWindow().setBackgroundDrawableResource(ImageUtil.getInstance(ListActivity.this).getImageInt());
         mCompletedToDosLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
         mAddItemLinear.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getLightColor()));
