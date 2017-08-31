@@ -110,6 +110,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     public void setUserUI() {
         ColorUtil.getInstance().setStatusBarColor(this);
+        //Added this line to prevent background image from getting squished by adding each to do list item.
+        getWindow().setBackgroundDrawableResource(ImageUtil.getInstance(SettingsActivity.this).getImageInt());
         mBackgroundLinear.setBackground(ImageUtil.getInstance(this).getImage());
         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
     }
