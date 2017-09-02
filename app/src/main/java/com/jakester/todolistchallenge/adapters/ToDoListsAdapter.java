@@ -53,21 +53,8 @@ public class ToDoListsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public void updateList(int pos, UserList updatedList){
-        UserList userList = mUserLists.get(pos);
-        if(!userList.getName().equals(updatedList.getName())){
-            userList.setName(updatedList.getName());
-        }
-        if(userList.getCompletedItems() != updatedList.getCompletedItems()){
-            ArrayList<Item> completedItems = userList.getCompletedItems();
-            completedItems.clear();
-            completedItems.addAll(updatedList.getCompletedItems());
-        }
-
-        if(userList.getCurrentItems() != updatedList.getCurrentItems()){
-            ArrayList<Item> currentItems = userList.getCurrentItems();
-            currentItems.clear();
-            currentItems.addAll(updatedList.getCurrentItems());
-        }
+        mUserLists.remove(pos);
+        mUserLists.add(pos, updatedList);
         notifyDataSetChanged();
     }
 
