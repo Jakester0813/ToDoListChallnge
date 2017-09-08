@@ -46,7 +46,7 @@ public class ToDoListsActivity extends AppCompatActivity {
     LinearLayoutManager mManager;
     ToDoListsAdapter mToDoListsAdapter;
     int rowID;
-    GetColorsFromJSONTask task;
+    ToDoColorsRunnable runnableTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +90,7 @@ public class ToDoListsActivity extends AppCompatActivity {
                     }
                 })
         );
-        task = new GetColorsFromJSONTask();
+        runnableTask = new ToDoColorsRunnable();
 
 
     }
@@ -100,7 +100,7 @@ public class ToDoListsActivity extends AppCompatActivity {
         super.onStart();
         setUserUI();
         if(ColorUtil.getInstance().getColors() == null){
-            task.execute();
+            runnableTask.run();
         }
     }
 
@@ -199,26 +199,23 @@ public class ToDoListsActivity extends AppCompatActivity {
         }
     }
 
-    private class GetColorsFromJSONTask extends AsyncTask<Void,Void,ArrayList<ToDoColor>> {
-        @Override
-        protected ArrayList<ToDoColor> doInBackground(Void... voids) {
-            Type listType = new TypeToken<ArrayList<ToDoColor>>(){}.getType();
-            Gson gson = new GsonBuilder().serializeNulls().create();
-            ArrayList<ToDoColor> colors = gson.fromJson(ColorUtil.getInstance().loadJSONFromAsset(ToDoListsActivity.this), listType);
-            return colors;
-        }
-        @Override
-        protected void onPostExecute(ArrayList<ToDoColor> colors) {
-            super.onPostExecute(colors);
-            ColorUtil.getInstance().setColors(colors);
-        }
-    }
-
     public void setUserUI() {
         ColorUtil.getInstance().setStatusBarColor(this);
         //Added this line to prevent background image from getting squished by adding each to do list item.
         getWindow().setBackgroundDrawableResource(ImageUtil.getInstance(ToDoListsActivity.this).getImageInt());
         mBackgroundLinear.setBackground(ImageUtil.getInstance(this).getImage());
         mToolbar.setBackgroundColor(Color.parseColor(UserSettings.getInstance(this).getBaseColor()));
+    }
+
+    public class ToDoColorsRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            Type listType = new TypeToken<ArrayList<ToDoColor>>(){}.getType();
+            Gson gson = new GsonBuilder().serializeNulls().create();
+            ArrayList<ToDoColor> colors = gson.fromJson(ColorUtil.getInstance().loadJSONFromAsset(ToDoListsActivity.this), listType);
+            ColorUtil.getInstance().setColors(colors);
+        }
+
     }
 }
